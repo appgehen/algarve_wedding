@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:algarve_wedding/pages/location/portuguese/logic/play_audio.dart';
+//import 'package:algarve_wedding/pages/location/portuguese/logic/play_audio.dart';
 
 Widget returnSoundCard(List itemList, String headline, BuildContext context) {
   return Column(
@@ -73,7 +73,7 @@ Widget returnSoundCard(List itemList, String headline, BuildContext context) {
                         ),
                       ),
                     ),
-                    onTap: () => playAudio(itemList, index),
+                    //onTap: () => playAudio(itemList, index),
                   ),
                 );
               },
