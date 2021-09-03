@@ -3,6 +3,7 @@ PODS:
     - Flutter
   - assets_audio_player_web (0.0.1):
     - Flutter
+  - BSImagePicker (3.3.1)
   - Firebase/Auth (8.6.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 8.6.0)
@@ -98,6 +99,9 @@ PODS:
   - image_viewer (0.0.1):
     - Flutter
   - leveldb-library (1.22.1)
+  - multi_image_picker2 (5.0.00):
+    - BSImagePicker (~> 3.3.1)
+    - Flutter
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
     - nanopb/encode (= 2.30908.0)
@@ -126,6 +130,7 @@ DEPENDENCIES:
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
   - Flutter (from `Flutter`)
   - image_viewer (from `.symlinks/plugins/image_viewer/ios`)
+  - multi_image_picker2 (from `.symlinks/plugins/multi_image_picker2/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
@@ -134,6 +139,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - BSImagePicker
     - Firebase
     - FirebaseABTesting
     - FirebaseAuth
@@ -170,6 +176,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   image_viewer:
     :path: ".symlinks/plugins/image_viewer/ios"
+  multi_image_picker2:
+    :path: ".symlinks/plugins/multi_image_picker2/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
   shared_preferences:
@@ -184,6 +192,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   assets_audio_player: edee322b9cb625571b830b35872ead1a295fd917
   assets_audio_player_web: 19826380c44375761aa0b9053665c1e3fbc3b86b
+  BSImagePicker: 0fe04b574d4d6b81093785d2af6c26227efc8428
   Firebase: 21ac9f28b09a8bdfc005f34c984fca84e7e8786d
   firebase_auth: f103a889e83e4fc3e69b0fe0cd2747ecfcbb33a0
   firebase_core: c21ac09a8d23afd3594b56ed786bad12e5266bba
@@ -205,6 +214,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 36689134877faeb055b27dfa4ccc9ceaa42e029e
   image_viewer: 3ff6248139d02dd4e15d4329bb36c69f00e615e2
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
+  multi_image_picker2: f81a13124e7a2bc48e7d15ee539a5f8b9ff4d407
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58

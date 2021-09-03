@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'build_image_gallery.dart';
+import 'logic/build_image_gallery.dart';
+
+import 'logic/add_image.dart';
 
 class WeddingDay extends StatefulWidget {
   @override
@@ -14,7 +16,10 @@ class _WeddingDayState extends State<WeddingDay> {
         title: Text("Hochzeitstag"),
       ),
       floatingActionButton: FloatingActionButton(
-        //onPressed: handleUploadType,
+        onPressed: () {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => AddImage()));
+        },
         child: Icon(Icons.camera_alt_outlined),
         backgroundColor: Theme.of(context).accentColor,
       ),
