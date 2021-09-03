@@ -29,6 +29,7 @@ dependencies:
   url_launcher: ^6.0.9
   assets_audio_player: ^3.0.3+6
   flutter_automation: ^2.0.0
+  multi_image_picker2: ^5.0.2
 
 
 
