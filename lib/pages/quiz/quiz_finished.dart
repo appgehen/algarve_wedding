@@ -13,7 +13,7 @@ class QuizFinished extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text("Wie gut kennst Du uns, " + playerName + "?"),
+        title: Text("Wie gut kennst Du Portugal, " + playerName + "?"),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -52,7 +52,7 @@ Widget returnSummary(BuildContext context) {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 10),
                   child: Text(
-                    'Stalkst Du uns, ' + playerName + '?',
+                    'Bist Du ein Reiseführer, ' + playerName + '?',
                     style: Theme.of(context).textTheme.headline1,
                   ),
                 ),
@@ -61,7 +61,7 @@ Widget returnSummary(BuildContext context) {
                   child: Text(
                     'Du hast alle ' +
                         correctAnswers.toString() +
-                        ' Fragen richtig beantwortet. Es macht uns schon etwas Angst, dass Du uns so gut kennst. 😉',
+                        ' Fragen richtig beantwortet. PSSST: Du hast Dir damit die Infos zu unserer Location freigespielt. Schau mal in den \"Portugal\" Tab. 😉',
                     style: Theme.of(context).textTheme.bodyText1,
                   ),
                 ),
@@ -73,7 +73,6 @@ Widget returnSummary(BuildContext context) {
       ],
     );
   } else if (correctAnswers >= quizQuestions.length - 5) {
-    saveSharedPrefs('aPausaVisibility', 'true');
     return Column(
       children: [
         Container(
@@ -100,7 +99,7 @@ Widget returnSummary(BuildContext context) {
                         correctAnswers.toString() +
                         ' von ' +
                         quizQuestions.length.toString() +
-                        ' Fragen richtig beantwortet.',
+                        ' Fragen richtig beantwortet. Noch fehlen Dir ein paar richtige Antworten für die Überraschung.',
                     style: Theme.of(context).textTheme.bodyText1,
                   ),
                 ),
@@ -141,7 +140,7 @@ Widget returnSummary(BuildContext context) {
                         correctAnswers.toString() +
                         ' von ' +
                         quizQuestions.length.toString() +
-                        ' Fragen richtig beantwortet. Gerne geben wir Dir Nachhilfe in Sachen "Alicia & Daniel". Ruf uns einfach an. 🙃',
+                        ' Fragen richtig beantwortet. Gerne leihen wir Dir unseren Portugal Reiseführer, damit Du Dich noch etwas informieren kannst. 🙃',
                     style: Theme.of(context).textTheme.bodyText1,
                   ),
                 ),

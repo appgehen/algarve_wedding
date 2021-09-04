@@ -96,7 +96,20 @@ class _QuizState extends State<Quiz> {
                           ),
                         ),
                       ),
-                      bestOfResultList(context),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15.0, bottom: 10),
+                        child: Container(
+                          child: Text(
+                            'Ewige Champions',
+                            style: Theme.of(context).textTheme.headline2,
+                          ),
+                          alignment: Alignment.bottomLeft,
+                        ),
+                      ),
+                      bestOfResultList(
+                          context, 'quizResultListBestOf', 'Februar 2021'),
+                      bestOfResultList(
+                          context, 'quizResultListBestOf_May', 'Mai 2021'),
                       BuildResultList(),
                     ],
                   ),

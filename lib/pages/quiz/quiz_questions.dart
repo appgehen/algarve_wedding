@@ -11,7 +11,7 @@ class QuizQuestionsNew extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Wie gut kennst Du uns, " + playerName + "?"),
+        title: Text("Findest Du unsere Unterkunft, " + playerName + "?"),
       ),
       body: Container(
         child: QuizPage(),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:algarve_wedding/widgets/fadein_animation.dart';
-import 'logic/build_list.dart';
+import 'logic/build_rooms.dart';
 import 'logic/build_route.dart';
 import 'package:video_player/video_player.dart';
 import 'package:algarve_wedding/widgets/build_intro-text/intro-text_streambuilder.dart';

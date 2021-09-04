@@ -91,7 +91,9 @@ class _AddImageState extends State<AddImage> {
   }
 
   chooseImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    final pickedFile = await picker.getImage(
+        source: ImageSource.gallery,
+        imageQuality: 10); //TODO Check if quality is big enough
     setState(() {
       _image.add(File(pickedFile?.path));
     });

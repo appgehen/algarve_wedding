@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-Widget bestOfResultList(BuildContext context) {
-  var _quizResultListBestOf =
-      FirebaseDatabase().reference().child('quizResultListBestOf');
+Widget bestOfResultList(
+    BuildContext context, String _resultList, String _month) {
+  var _quizResultListBestOf = FirebaseDatabase().reference().child(_resultList);
   return StreamBuilder(
     stream: _quizResultListBestOf.onValue,
     builder: (context, snap) {
@@ -94,71 +94,58 @@ Widget bestOfResultList(BuildContext context) {
 
         print(_resultListKeeper.length);
 
-        return Padding(
-          padding: const EdgeInsets.only(top: 10.0),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Expanded(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 15.0, bottom: 10),
-                      child: Container(
-                        child: Text(
-                          'Ewige Champions',
-                          style: Theme.of(context).textTheme.headline2,
-                        ),
-                        alignment: Alignment.bottomLeft,
-                      ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 5),
-                        child: Card(
-                          child: ExpandablePanel(
-                            //iconColor: Theme.of(context).primaryColor, TODO color
-                            header: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8),
-                                    child: Text(
-                                      'Februar 2021',
-                                      style:
-                                          Theme.of(context).textTheme.bodyText1,
-                                    ),
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Expanded(
+              child: Column(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 5),
+                      child: Card(
+                        child: ExpandablePanel(
+                          //iconColor: Theme.of(context).primaryColor, TODO color
+                          header: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8),
+                                  child: Text(
+                                    _month,
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                            expanded: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 18.0, right: 10, bottom: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Table(
-                                    border: TableBorder.all(
-                                        color: Colors.black26,
-                                        width: 1,
-                                        style: BorderStyle.none),
-                                    children: _resultListKeeper,
-                                  ),
-                                ],
-                              ),
+                          ),
+                          expanded: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 18.0, right: 10, bottom: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Table(
+                                  border: TableBorder.all(
+                                      color: Colors.black26,
+                                      width: 1,
+                                      style: BorderStyle.none),
+                                  children: _resultListKeeper,
+                                ),
+                              ],
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         );
       } else
         return Text('');

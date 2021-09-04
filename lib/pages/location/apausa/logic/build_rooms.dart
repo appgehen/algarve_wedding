@@ -6,8 +6,7 @@ class BuildImageList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        returnStreamBuilder(
-            apausaItems, 'locationAssets', 'Impressionen', context),
+        returnStreamBuilder(apausaItems, 'locationAssets', 'Zimmer', context),
       ],
     );
   }
