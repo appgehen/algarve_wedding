@@ -131,6 +131,7 @@ Widget returnImageCard(List itemList, String headline, BuildContext context) {
                     if (itemList == algarveItems) {
                       launchURL(itemList, index);
                     } else {
+                      print("slideshow");
                       _getSlideshow(itemList, index);
                     }
                   },
