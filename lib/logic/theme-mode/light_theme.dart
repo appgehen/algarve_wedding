@@ -1,8 +1,12 @@
+import 'package:algarve_wedding/pages/quiz/quiz_logic.dart';
 import 'package:flutter/material.dart';
 
 ThemeData lightThemeData() {
   return ThemeData(
     brightness: Brightness.light,
+    bottomAppBarTheme: BottomAppBarTheme(),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        selectedItemColor: Color.fromRGBO(33, 62, 90, 1)),
     primaryColor: Color.fromRGBO(33, 62, 90, 1),
     accentColor: Color.fromRGBO(33, 62, 90, 1),
     cursorColor: Color.fromRGBO(33, 62, 90, 1),

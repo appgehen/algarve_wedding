@@ -13,7 +13,6 @@ import 'logic/theme-mode/dark_theme.dart';
 import 'logic/theme-mode/get_theme.dart';
 
 bool _isLoading = true;
-bool _routeAndroid = true;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,16 +31,13 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   void initState() {
-    _initFunction();
-    super.initState();
-  }
-
-  _initFunction() async {
-    setState(() {
-      signInAnonymously(context);
-      _routeAndroid = false;
-      _isLoading = false;
+    signInAnonymously(context).then((value) {
+      setState(() {
+        print("user signed in");
+        _isLoading = false;
+      });
     });
+    super.initState();
   }
 
   @override
@@ -55,20 +51,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       darkTheme: darkThemeData(),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: _landingPage(),
+        body: _isLoading
+            ? Center(child: CircularProgressIndicator())
+            : MyBottomNav(),
       ),
     );
-  }
-}
-
-Widget _landingPage() {
-  if (_isLoading == true) {
-    return Center(child: CircularProgressIndicator());
-  } else {
-    if (_routeAndroid == true) {
-      return LandingPage();
-    } else {
-      return MyBottomNav();
-    }
   }
 }
