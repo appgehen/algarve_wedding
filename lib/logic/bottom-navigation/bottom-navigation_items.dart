@@ -33,6 +33,10 @@ List<BottomNavigationBarItem> bottomNavigationItems = [
     icon: Icon(Icons.info),
     title: Text('Infos'),
   ),
+  BottomNavigationBarItem(
+    icon: Icon(Icons.list),
+    title: Text('Timeline'),
+  ),
   /*BottomNavigationBarItem(
     icon: Icon(Icons.photo_library_outlined),
     title: Text('Gallerie'),
@@ -43,7 +47,7 @@ List<Widget> bottomNavigationChildren = [
   News(),
   Algarve(),
   Quiz(),
-  //Timeline(),
   WeddingABC(),
+  Timeline(),
   //ImageGalleryNeu(),
 ];
