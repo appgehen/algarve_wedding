@@ -11,9 +11,10 @@ import 'package:algarve_wedding/main_loggedin.dart';
 import 'logic/theme-mode/light_theme.dart';
 import 'logic/theme-mode/dark_theme.dart';
 import 'logic/theme-mode/get_theme.dart';
+import 'logic/bottom-navigation/bottom-navigation_build.dart';
 import 'logic/bottom-navigation/bottom-navigation_load_items.dart';
 
-bool _isLoading = true;
+bool isLoading = true;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,14 +33,22 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   void initState() {
-    signInAnonymously(context).then((value) {
-      setState(() {
-        print("user signed in");
-        _isLoading = false;
-      });
-    });
+    _signIn();
     loadBottomNavItems();
     super.initState();
+  }
+
+  void _signIn() async {
+    await loadBottomNavItems();
+    await signInAnonymously(context);
+    await _bottomNav();
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  void _bottomNav() async {
+    await bottomNavigationBuild();
   }
 
   @override
@@ -53,7 +62,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       darkTheme: darkThemeData(),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: _isLoading
+        body: isLoading
             ? Center(child: CircularProgressIndicator())
             : MyBottomNav(),
       ),

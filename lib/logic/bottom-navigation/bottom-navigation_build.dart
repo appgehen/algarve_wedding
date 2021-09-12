@@ -9,7 +9,9 @@ import 'package:algarve_wedding/pages/timeline/timeline_home.dart';
 import 'package:algarve_wedding/pages/gallery/gallery_home.dart';
 import 'bottom-navigation_load_items.dart';
 
-bottomNavigationBuild() async {
+void bottomNavigationBuild() async {
+  bottomNavigationItems.clear();
+  bottomNavigationChildren.clear();
   bottomNavItems.forEach((element) {
     if (element["visible"].toString() == "true") {
       bottomNavigationItems.add(BottomNavigationBarItem(
