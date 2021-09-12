@@ -33,6 +33,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   void initState() {
+    getThemeMode(context);
     _signIn();
     loadBottomNavItems();
     super.initState();
