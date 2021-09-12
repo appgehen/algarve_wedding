@@ -4,7 +4,7 @@ import 'package:algarve_wedding/widgets/build_cards/listview_error_case.dart';
 import 'package:algarve_wedding/widgets/build_cards/abc_card.dart';
 import 'package:algarve_wedding/widgets/build_cards/image_card.dart';
 import 'package:algarve_wedding/widgets/build_cards/sound_card.dart';
-import 'package:algarve_wedding/widgets/build_cards/timeline_card.dart';
+import 'package:algarve_wedding/widgets/build_cards/timeline-card/timeline_card.dart';
 
 List weddingABC = [];
 List algarveItems = [];

@@ -11,6 +11,7 @@ import 'package:algarve_wedding/main_loggedin.dart';
 import 'logic/theme-mode/light_theme.dart';
 import 'logic/theme-mode/dark_theme.dart';
 import 'logic/theme-mode/get_theme.dart';
+import 'logic/bottom-navigation/bottom-navigation_load_items.dart';
 
 bool _isLoading = true;
 
@@ -37,6 +38,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         _isLoading = false;
       });
     });
+    loadBottomNavItems();
     super.initState();
   }
 
