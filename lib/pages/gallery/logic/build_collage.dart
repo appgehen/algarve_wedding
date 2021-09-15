@@ -1,17 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:algarve_wedding/logic/return_storage-image.dart';
 import 'package:algarve_wedding/widgets/fallback_image.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
-List<String> _galleryImages = [];
+ReturnStorageImage _returnStorageImage = ReturnStorageImage();
 
 class GalleryCollage extends StatefulWidget {
+  final String galleryName;
+  final String gallery;
+  const GalleryCollage({Key key, this.galleryName, this.gallery})
+      : super(key: key);
   @override
-  _GalleryCollageState createState() => _GalleryCollageState();
+  _GalleryCollageState createState() => _GalleryCollageState(
+      galleryName: this.galleryName, gallery: this.gallery);
 }
 
 class _GalleryCollageState extends State<GalleryCollage> {
+  String galleryName;
+  String gallery;
+  _GalleryCollageState({this.galleryName, this.gallery});
+
   bool _isloading = true;
+  List<String> _galleryImages = [];
 
   @override
   void initState() {
@@ -21,7 +33,7 @@ class _GalleryCollageState extends State<GalleryCollage> {
 
   void loadGallery() async {
     _galleryImages.clear();
-    var _firebaseStorage = FirebaseStorage.instance.ref("weddingDayGallery");
+    var _firebaseStorage = FirebaseStorage.instance.ref(gallery.toString());
     await _firebaseStorage.listAll().then((result) {
       int _image = result.items.length;
       result.items.forEach((imageRef) {
@@ -33,8 +45,6 @@ class _GalleryCollageState extends State<GalleryCollage> {
   void _displayImage(imageRef, int _image) async {
     final _link = await imageRef.getDownloadURL();
     _galleryImages.add(_link);
-    print(_galleryImages.length);
-    print(_image);
     if (_galleryImages.length == _image - 1) {
       setState(() {
         _isloading = false;
@@ -50,13 +60,16 @@ class _GalleryCollageState extends State<GalleryCollage> {
           : Column(
               children: [
                 Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.width / 16 * 9,
                   child: CachedNetworkImage(
                     imageUrl: _galleryImages[0].toString(),
                     fadeInDuration: const Duration(milliseconds: 500),
                     fadeInCurve: Curves.easeIn,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.width / 16 * 9,
                   ),
-                  width: MediaQuery.of(context).size.width,
                 ),
               ],
             );
@@ -199,7 +212,21 @@ class _GalleryCollageState extends State<GalleryCollage> {
               ),
             );
     } else {
-      return Container();
+      return FutureBuilder(
+        future: _returnStorageImage
+            .getImageURL('headerImages/gallery-weddingday.webp'),
+        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+          return Container(
+            decoration: FallbackImage(),
+            child: CachedNetworkImage(
+              imageUrl: (snapshot.data).toString(),
+              fadeInDuration: const Duration(milliseconds: 500),
+              fadeInCurve: Curves.easeIn,
+              fit: BoxFit.cover,
+            ),
+          );
+        },
+      );
     }
   }
 }

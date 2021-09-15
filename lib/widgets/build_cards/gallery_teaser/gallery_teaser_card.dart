@@ -1,64 +1,85 @@
 import 'package:flutter/material.dart';
-import 'package:algarve_wedding/logic/return_storage-image.dart';
-import 'package:algarve_wedding/widgets/fallback_image.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'navigate_gallery_teaser.dart';
+import 'package:algarve_wedding/pages/gallery/logic/build_collage.dart';
 
-ReturnStorageImage _returnStorageImage = ReturnStorageImage();
-
-Widget returnGalleryTeaser(String imagePath, String galleryName,
-    BuildContext context, String gallery, bool visibility) {
-  return GestureDetector(
-    child: Padding(
-      padding: const EdgeInsets.only(bottom: 10.0),
-      child: Card(
-        child: Stack(
-          children: [
-            SizedBox(
-              height: (MediaQuery.of(context).size.width) / 16 * 9,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  FutureBuilder(
-                    future: _returnStorageImage
-                        .getImageURL('headerImages/$imagePath.webp'),
-                    builder:
-                        (BuildContext context, AsyncSnapshot<String> snapshot) {
-                      return Container(
-                        decoration: FallbackImage(),
-                        child: CachedNetworkImage(
-                          imageUrl: (snapshot.data).toString(),
-                          fadeInDuration: const Duration(milliseconds: 500),
-                          fadeInCurve: Curves.easeIn,
-                          fit: BoxFit.cover,
-                        ),
-                      );
-                    },
-                  ),
-                  Container(
-                    color: Color.fromRGBO(0, 0, 0, 0.6),
-                  ),
-                  Center(
-                    child: FittedBox(
-                      fit: BoxFit.fitWidth,
-                      child: Text(
-                        galleryName,
-                        style: TextStyle(
-                          fontFamily: 'Amatic Regular',
-                          height: 1.5,
-                          fontSize: 35,
-                          color: Colors.white,
+Widget returnGalleryTeaser(
+    List gallery, String galleryName, BuildContext context) {
+  return Column(
+    children: [
+      Padding(
+        padding: const EdgeInsets.only(top: 15.0, bottom: 10),
+        child: Container(
+          child: Text(
+            galleryName,
+            style: Theme.of(context).textTheme.headline2,
+          ),
+          alignment: Alignment.bottomLeft,
+        ),
+      ),
+      Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Expanded(
+            child: ListView.builder(
+              padding: EdgeInsets.only(top: 0, bottom: 20),
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: gallery.length,
+              itemBuilder: (context, index) {
+                if (gallery[index]['visible'].toString() == "true") {
+                  return GestureDetector(
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: Card(
+                        child: Stack(
+                          children: [
+                            SizedBox(
+                              height:
+                                  (MediaQuery.of(context).size.width) / 16 * 9,
+                              child: Stack(
+                                fit: StackFit.expand,
+                                children: [
+                                  GalleryCollage(
+                                      galleryName: gallery[index]['name'],
+                                      gallery: gallery[index]['imageFolder']),
+                                  Container(
+                                    color: Color.fromRGBO(0, 0, 0, 0.6),
+                                  ),
+                                  Center(
+                                    child: FittedBox(
+                                      fit: BoxFit.fitWidth,
+                                      child: Text(
+                                        gallery[index]['name'],
+                                        style: TextStyle(
+                                          fontFamily: 'Amatic Regular',
+                                          height: 1.5,
+                                          fontSize: 35,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
+                    onTap: () => openGallery(
+                        gallery[index]['name'],
+                        gallery[index]['imageFolder'],
+                        context,
+                        gallery[index]['visible']),
+                  );
+                } else {
+                  return Container();
+                }
+              },
             ),
-          ],
-        ),
-      ),
-    ),
-    onTap: () => openGallery(galleryName, gallery, context, visibility),
+          ),
+        ],
+      )
+    ],
   );
 }

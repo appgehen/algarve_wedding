@@ -7,7 +7,6 @@ class BuildGalleryList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        GalleryCollage(),
         returnStreamBuilder(galleries, 'galleries', 'Gallerien', context),
       ],
     );
