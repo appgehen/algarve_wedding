@@ -66,15 +66,14 @@ class _GalleryCollageState extends State<GalleryCollage> {
                     imageUrl: _galleryImages[0].toString(),
                     fadeInDuration: const Duration(milliseconds: 500),
                     fadeInCurve: Curves.easeIn,
-                    fit: BoxFit.contain,
+                    fit: BoxFit.cover,
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.width / 16 * 9,
                   ),
                 ),
               ],
             );
-    }
-    if (_galleryImages.length == 2) {
+    } else if (_galleryImages.length == 2) {
       return _isloading
           ? CircularProgressIndicator()
           : Container(
@@ -101,8 +100,7 @@ class _GalleryCollageState extends State<GalleryCollage> {
                 ],
               ),
             );
-    }
-    if (_galleryImages.length == 3) {
+    } else if (_galleryImages.length == 3) {
       return _isloading
           ? CircularProgressIndicator()
           : Container(
@@ -147,8 +145,144 @@ class _GalleryCollageState extends State<GalleryCollage> {
                 ],
               ),
             );
-    }
-    if (_galleryImages.length == 4) {
+    } else if (_galleryImages.length == 4) {
+      return _isloading
+          ? CircularProgressIndicator()
+          : Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.width / 16 * 9,
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: CachedNetworkImage(
+                          imageUrl: _galleryImages[0].toString(),
+                          fadeInDuration: const Duration(milliseconds: 500),
+                          fadeInCurve: Curves.easeIn,
+                          fit: BoxFit.cover,
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.width / 16 * 4.5,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: CachedNetworkImage(
+                          imageUrl: _galleryImages[1].toString(),
+                          fadeInDuration: const Duration(milliseconds: 500),
+                          fadeInCurve: Curves.easeIn,
+                          fit: BoxFit.cover,
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.width / 16 * 4.5,
+                        ),
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: CachedNetworkImage(
+                          imageUrl: _galleryImages[2].toString(),
+                          fadeInDuration: const Duration(milliseconds: 500),
+                          fadeInCurve: Curves.easeIn,
+                          fit: BoxFit.cover,
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.width / 16 * 4.5,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: CachedNetworkImage(
+                          imageUrl: _galleryImages[3].toString(),
+                          fadeInDuration: const Duration(milliseconds: 500),
+                          fadeInCurve: Curves.easeIn,
+                          fit: BoxFit.cover,
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.width / 16 * 4.5,
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            );
+    } else if (_galleryImages.length == 5) {
+      return _isloading
+          ? CircularProgressIndicator()
+          : Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.width / 16 * 9,
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: CachedNetworkImage(
+                          imageUrl: _galleryImages[0].toString(),
+                          fadeInDuration: const Duration(milliseconds: 500),
+                          fadeInCurve: Curves.easeIn,
+                          fit: BoxFit.cover,
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.width / 16 * 4.5,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: CachedNetworkImage(
+                          imageUrl: _galleryImages[1].toString(),
+                          fadeInDuration: const Duration(milliseconds: 500),
+                          fadeInCurve: Curves.easeIn,
+                          fit: BoxFit.cover,
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.width / 16 * 4.5,
+                        ),
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: CachedNetworkImage(
+                          imageUrl: _galleryImages[2].toString(),
+                          fadeInDuration: const Duration(milliseconds: 500),
+                          fadeInCurve: Curves.easeIn,
+                          fit: BoxFit.cover,
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.width / 16 * 4.5,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: CachedNetworkImage(
+                          imageUrl: _galleryImages[3].toString(),
+                          fadeInDuration: const Duration(milliseconds: 500),
+                          fadeInCurve: Curves.easeIn,
+                          fit: BoxFit.cover,
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.width / 16 * 4.5,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: CachedNetworkImage(
+                          imageUrl: _galleryImages[4].toString(),
+                          fadeInDuration: const Duration(milliseconds: 500),
+                          fadeInCurve: Curves.easeIn,
+                          fit: BoxFit.cover,
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.width / 16 * 4.5,
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            );
+    } else if (_galleryImages.length > 5) {
       return _isloading
           ? CircularProgressIndicator()
           : Container(

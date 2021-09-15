@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_viewer/image_viewer.dart';
 
 class BuildGallery extends StatefulWidget {
   final String galleryName;
@@ -17,6 +18,7 @@ class _BuildGalleryState extends State<BuildGallery> {
   String gallery;
   _BuildGalleryState({this.galleryName, this.gallery});
   List<Widget> _galleryImages = [];
+  List<String> _slideShow = [];
   bool _isloading = true;
   int _imagesLength;
 
@@ -34,17 +36,28 @@ class _BuildGalleryState extends State<BuildGallery> {
 
   void _displayImage(imageRef) async {
     final _link = await imageRef.getDownloadURL();
-
     setState(
       () {
+        _slideShow.add(_link);
         _galleryImages.add(
-          Container(
-            height: 200,
-            width: 200,
-            child: Image(
-              image: CachedNetworkImageProvider(_link),
-              fit: BoxFit.cover,
+          GestureDetector(
+            child: Container(
+              height: 200,
+              width: 200,
+              child: Image(
+                image: CachedNetworkImageProvider(_link),
+                fit: BoxFit.cover,
+              ),
             ),
+            onTap: () {
+              setState(() {
+                ImageViewer.showImageSlider(
+                  images: _slideShow,
+                  startingPosition: 0,
+                  //TODO the position doesn't work
+                );
+              });
+            },
           ),
         );
       },

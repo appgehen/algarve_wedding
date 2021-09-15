@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'logic/build_image_gallery.dart';
-
 import 'logic/add_image.dart';
 
 class Gallery extends StatelessWidget {
