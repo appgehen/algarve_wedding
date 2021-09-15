@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:algarve_wedding/widgets/fadein_animation.dart';
 import 'package:algarve_wedding/widgets/header_image.dart';
 import 'package:algarve_wedding/widgets/build_intro-text/intro-text_streambuilder.dart';
-import 'gallery_buildlist.dart';
+import 'logic/gallery_buildlist.dart';
 
 class ImageGalleryNeu extends StatefulWidget {
   @override
