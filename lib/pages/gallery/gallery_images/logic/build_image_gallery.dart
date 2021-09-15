@@ -3,18 +3,26 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class BuildGallery extends StatefulWidget {
+  final String galleryName;
+  final String gallery;
+  const BuildGallery({Key key, this.galleryName, this.gallery})
+      : super(key: key);
   @override
-  _BuildGalleryState createState() => _BuildGalleryState();
+  _BuildGalleryState createState() =>
+      _BuildGalleryState(galleryName: this.galleryName, gallery: this.gallery);
 }
 
 class _BuildGalleryState extends State<BuildGallery> {
-  var _firebaseStorage = FirebaseStorage.instance.ref('weddingImages');
+  String galleryName;
+  String gallery;
+  _BuildGalleryState({this.galleryName, this.gallery});
   List<Widget> _galleryImages = [];
   bool _isloading = true;
   int _imagesLength;
 
   @override
   void initState() {
+    var _firebaseStorage = FirebaseStorage.instance.ref(gallery.toString());
     super.initState();
     _firebaseStorage.listAll().then((result) {
       _imagesLength = result.items.length;

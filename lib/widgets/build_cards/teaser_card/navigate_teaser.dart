@@ -5,7 +5,6 @@ import 'package:algarve_wedding/pages/location/apausa/apausa_home.dart';
 import 'package:algarve_wedding/pages/location/discover_algarve/algarve_home.dart';
 import '../../../pages/location/location_home/logic/alert_curious.dart';
 import '../../../pages/location/location_home/logic/launch_spotify.dart';
-import 'package:algarve_wedding/pages/gallery/wedding_day/wedding_gallery.dart';
 
 void openLink(String nextPage, BuildContext context, bool visibility) {
   if (nextPage == 'PortugesePhrases') {
@@ -28,12 +27,6 @@ void openLink(String nextPage, BuildContext context, bool visibility) {
         ));
   } else if (nextPage == 'APausa' && visibility == false) {
     alertCurious(context);
-  } else if (nextPage == 'WeddingDay' && visibility == true) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => WeddingDay(),
-        ));
   } else {
     launchSpotify();
   }

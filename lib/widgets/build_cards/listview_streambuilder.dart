@@ -5,6 +5,7 @@ import 'package:algarve_wedding/widgets/build_cards/abc_card.dart';
 import 'package:algarve_wedding/widgets/build_cards/image_card.dart';
 import 'package:algarve_wedding/widgets/build_cards/sound_card.dart';
 import 'package:algarve_wedding/widgets/build_cards/timeline-card/timeline_card.dart';
+import 'package:algarve_wedding/widgets/build_cards/gallery_teaser/gallery_teaser_card_new.dart';
 
 List weddingABC = [];
 List algarveItems = [];
@@ -12,6 +13,7 @@ List apausaItems = [];
 List roadToPortugal = [];
 List learnPortugese = [];
 List timeline = [];
+List galleries = [];
 
 Widget returnStreamBuilder(List currentList, String streamChild,
     String headline, BuildContext context) {
@@ -44,6 +46,8 @@ Widget returnStreamBuilder(List currentList, String streamChild,
               return returnSoundCard(currentList, headline, context);
             } else if (streamChild == 'timeline') {
               return returnTimelineCard(currentList, headline, context);
+            } else if (streamChild == 'galleries') {
+              return returnGalleryTeaser(currentList, headline, context);
             } else {
               return returnImageCard(currentList, headline, context);
             }

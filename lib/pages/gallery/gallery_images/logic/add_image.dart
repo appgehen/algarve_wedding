@@ -7,11 +7,19 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:path/path.dart' as Path;
 
 class AddImage extends StatefulWidget {
+  final String galleryName;
+  final String gallery;
+  const AddImage({Key key, this.galleryName, this.gallery}) : super(key: key);
   @override
-  _AddImageState createState() => _AddImageState();
+  _AddImageState createState() =>
+      _AddImageState(galleryName: this.galleryName, gallery: this.gallery);
 }
 
 class _AddImageState extends State<AddImage> {
+  String galleryName;
+  String gallery;
+  _AddImageState({this.galleryName, this.gallery});
+
   bool uploading = false;
   double val = 0;
   CollectionReference imgRef;
@@ -123,7 +131,7 @@ class _AddImageState extends State<AddImage> {
       });
       ref = firebase_storage.FirebaseStorage.instance
           .ref()
-          .child('weddingImages/${Path.basename(img.path)}');
+          .child(gallery.toString() + '/${Path.basename(img.path)}');
       await ref.putFile(img).whenComplete(() async {
         await ref.getDownloadURL().then((value) {
           imgRef.add({'url': value});
@@ -136,6 +144,6 @@ class _AddImageState extends State<AddImage> {
   @override
   void initState() {
     super.initState();
-    imgRef = FirebaseFirestore.instance.collection('weddingImages');
+    imgRef = FirebaseFirestore.instance.collection(gallery.toString());
   }
 }
