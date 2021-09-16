@@ -18,7 +18,7 @@ class _TimelineState extends State<Timeline> {
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
-          getHeaderImage('timeline.webp', context, false),
+          getHeaderImage('ablauf.jpg', context, false),
           SliverList(
             delegate: SliverChildListDelegate(
               [

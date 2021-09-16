@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_viewer/image_viewer.dart';
+import 'add_image.dart';
 
 class BuildGallery extends StatefulWidget {
   final String galleryName;
@@ -28,9 +29,15 @@ class _BuildGalleryState extends State<BuildGallery> {
     super.initState();
     _firebaseStorage.listAll().then((result) {
       _imagesLength = result.items.length;
-      result.items.forEach((imageRef) {
-        _displayImage(imageRef);
-      });
+      if (_imagesLength == 0) {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) =>
+                AddImage(galleryName: galleryName, gallery: gallery)));
+      } else {
+        result.items.forEach((imageRef) {
+          _displayImage(imageRef);
+        });
+      }
     });
   }
 

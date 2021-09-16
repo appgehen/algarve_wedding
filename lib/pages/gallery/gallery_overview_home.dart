@@ -16,7 +16,7 @@ class _ImageGalleryNeuState extends State<ImageGalleryNeu> {
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
-          getHeaderImage('gallery-weddingday.webp', context, true),
+          getHeaderImage('galerie.png', context, true),
           SliverList(
             delegate: SliverChildListDelegate(
               [
@@ -27,13 +27,6 @@ class _ImageGalleryNeuState extends State<ImageGalleryNeu> {
                         left: 10.0, right: 10.0, top: 10.0),
                     child: Column(
                       children: [
-                        Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: returnIntroStreamBuilder(
-                                introTexts, 'introTexts', 'gallery', context),
-                          ),
-                        ),
                         BuildGalleryList(),
                       ],
                     ),

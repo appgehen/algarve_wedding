@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -20,92 +21,39 @@ class _AddImageState extends State<AddImage> {
   String gallery;
   _AddImageState({this.galleryName, this.gallery});
 
+  List<XFile> _imageFileList;
+
   bool uploading = false;
   double val = 0;
   CollectionReference imgRef;
   firebase_storage.Reference ref;
-
   List<File> _image = [];
-  final picker = ImagePicker();
+  final ImagePicker picker = ImagePicker();
+
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Bilder auswählen'),
-          actions: [
-            FlatButton(
-                onPressed: () {
-                  setState(() {
-                    uploading = true;
-                  });
-                  uploadFile().whenComplete(() =>
-                      Navigator.of(context).popUntil((route) => route.isFirst));
-                },
-                child: Text(
-                  'Hochladen',
-                  style: Theme.of(context).appBarTheme.textTheme.title,
-                ))
-          ],
-        ),
-        body: Stack(
-          children: [
-            Container(
-              padding: EdgeInsets.all(4),
-              child: GridView.builder(
-                  itemCount: _image.length + 1,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3),
-                  itemBuilder: (context, index) {
-                    return index == 0
-                        ? Center(
-                            child: IconButton(
-                                icon: Icon(Icons.add),
-                                onPressed: () =>
-                                    !uploading ? chooseImage() : null),
-                          )
-                        : Container(
-                            margin: EdgeInsets.all(3),
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: FileImage(_image[index - 1]),
-                                    fit: BoxFit.cover)),
-                          );
-                  }),
-            ),
-            uploading
-                ? Center(
-                    child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        child: Text(
-                          'Lade Deine Bilder hoch...',
-                          style: Theme.of(context).textTheme.bodyText1,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      CircularProgressIndicator(
-                        value: val,
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                            Theme.of(context).primaryColor),
-                      )
-                    ],
-                  ))
-                : Container(),
-          ],
-        ));
+  void initState() {
+    super.initState();
+    imgRef = FirebaseFirestore.instance.collection(gallery.toString());
+    if (!uploading) {
+      chooseImage();
+    }
   }
 
-  chooseImage() async {
-    final pickedFile = await picker.getImage(
-        source: ImageSource.gallery,
-        imageQuality: 10); //TODO Check if quality is big enough
-    setState(() {
-      _image.add(File(pickedFile?.path));
+  void chooseImage() async {
+    await selectImages();
+    _imageFileList.forEach((element) {
+      setState(() {
+        _image.add(File(element.path));
+        if (element.path == null) retrieveLostData();
+      });
     });
-    if (pickedFile.path == null) retrieveLostData();
+  }
+
+  void selectImages() async {
+    final pickedFileList = await picker.pickMultiImage(imageQuality: 70);
+    setState(() {
+      _imageFileList = pickedFileList;
+    });
   }
 
   Future<void> retrieveLostData() async {
@@ -124,7 +72,6 @@ class _AddImageState extends State<AddImage> {
 
   Future uploadFile() async {
     int i = 1;
-
     for (var img in _image) {
       setState(() {
         val = i / _image.length;
@@ -141,9 +88,90 @@ class _AddImageState extends State<AddImage> {
     }
   }
 
+  Widget uploadImagesCTA() {
+    if (_image.length >= 1) {
+      return FloatingActionButton.extended(
+        onPressed: () {
+          setState(() {
+            uploading = true;
+          });
+          uploadFile().whenComplete(
+              () => Navigator.of(context).popUntil((route) => route.isFirst));
+        },
+        label: Text(
+          'Hochladen',
+          style: Theme.of(context).textTheme.headline2,
+        ),
+        backgroundColor: Theme.of(context).accentColor,
+      );
+    } else {
+      return Container();
+    }
+  }
+
   @override
-  void initState() {
-    super.initState();
-    imgRef = FirebaseFirestore.instance.collection(gallery.toString());
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Bilder auswählen'),
+      ),
+      floatingActionButton: uploadImagesCTA(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      body: Stack(
+        children: [
+          Container(
+            padding: EdgeInsets.all(4),
+            child: GridView.builder(
+                itemCount: _image.length + 1,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3),
+                itemBuilder: (context, index) {
+                  return index == 0
+                      ? Center(
+                          child: IconButton(
+                              icon: Icon(Icons.add),
+                              onPressed: () =>
+                                  !uploading ? chooseImage() : null),
+                        )
+                      : Container(
+                          margin: EdgeInsets.all(3),
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: FileImage(_image[index - 1]),
+                                  fit: BoxFit.cover)),
+                        );
+                }),
+          ),
+          uploading
+              ? Center(
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            child: Text(
+                              'Lade Deine Bilder hoch...',
+                              style: Theme.of(context).textTheme.bodyText1,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          CircularProgressIndicator(
+                            value: val,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                Theme.of(context).primaryColor),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              : Container(),
+        ],
+      ),
+    );
   }
 }
