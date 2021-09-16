@@ -35,6 +35,8 @@ ThemeData lightThemeData() {
       ),
       headline2: TextStyle(
         fontSize: 18.0,
+        fontFamily: 'Roboto Light',
+        color: Colors.black,
       ),
       headline3: TextStyle(
         fontFamily: 'Amatic Regular',
@@ -81,14 +83,19 @@ ThemeData lightThemeData() {
       bodyText1: TextStyle(
         fontSize: 15.0,
         height: 1.5,
+        fontFamily: 'Roboto Light',
+        color: Colors.black,
       ),
       bodyText2: TextStyle(
         fontSize: 15.0,
         height: 1.5,
+        fontFamily: 'Roboto Light',
         color: Colors.white,
       ),
       subtitle2: TextStyle(
         height: 1.5,
+        color: Colors.black,
+        fontFamily: 'Roboto Light',
       ),
     ),
   );

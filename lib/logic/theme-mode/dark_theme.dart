@@ -83,16 +83,19 @@ ThemeData darkThemeData() {
       bodyText1: TextStyle(
         fontSize: 15.0,
         height: 1.5,
+        fontFamily: 'Roboto Light',
         color: Colors.white,
       ),
       bodyText2: TextStyle(
         fontSize: 15.0,
         height: 1.5,
+        fontFamily: 'Roboto Light',
         color: Colors.white,
       ),
       subtitle2: TextStyle(
         height: 1.5,
         color: Colors.white,
+        fontFamily: 'Roboto Light',
       ),
     ),
     iconTheme: IconThemeData(color: Colors.white),
