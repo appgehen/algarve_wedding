@@ -14,8 +14,7 @@ void bottomNavigationBuild(String buildNumber, String version) async {
   bottomNavigationChildren.clear();
   bottomNavItems.forEach((element) {
     if (element["visible"].toString() == "true" &&
-        element["version"].toString() ==
-            version.toString() + "+" + buildNumber.toString()) {
+        int.parse(buildNumber) >= int.parse(element["buildNumber"])) {
       bottomNavigationItems.add(BottomNavigationBarItem(
         icon: Icon(IconData(int.parse(element['icon']),
             fontFamily: element['fontFamily'].toString())),
