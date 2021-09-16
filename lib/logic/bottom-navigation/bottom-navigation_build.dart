@@ -9,11 +9,13 @@ import 'package:algarve_wedding/pages/timeline/timeline_home.dart';
 import 'package:algarve_wedding/pages/gallery/gallery_overview_home.dart';
 import 'bottom-navigation_load_items.dart';
 
-void bottomNavigationBuild() async {
+void bottomNavigationBuild(String buildNumber, String version) async {
   bottomNavigationItems.clear();
   bottomNavigationChildren.clear();
   bottomNavItems.forEach((element) {
-    if (element["visible"].toString() == "true") {
+    if (element["visible"].toString() == "true" &&
+        element["version"].toString() ==
+            version.toString() + "+" + buildNumber.toString()) {
       bottomNavigationItems.add(BottomNavigationBarItem(
         icon: Icon(IconData(int.parse(element['icon']),
             fontFamily: element['fontFamily'].toString())),

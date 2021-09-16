@@ -33,6 +33,7 @@ dependencies:
   cloud_firestore: ^2.5.1
   image_picker: ^0.8.4
   transparent_image: ^2.0.0
+  package_info_plus: ^1.0.6
 
 
 dev_dependencies:

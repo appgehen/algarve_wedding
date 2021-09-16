@@ -13,6 +13,7 @@ import 'logic/theme-mode/dark_theme.dart';
 import 'logic/theme-mode/get_theme.dart';
 import 'logic/bottom-navigation/bottom-navigation_build.dart';
 import 'logic/bottom-navigation/bottom-navigation_load_items.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 bool isLoading = true;
 
@@ -31,12 +32,27 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   FirebaseAuth auth = FirebaseAuth.instance;
 
+  PackageInfo _packageInfo = PackageInfo(
+    appName: 'Unknown',
+    packageName: 'Unknown',
+    version: 'Unknown',
+    buildNumber: 'Unknown',
+    buildSignature: 'Unknown',
+  );
+
   @override
   void initState() {
     getThemeMode(context);
     _signIn();
     loadBottomNavItems();
     super.initState();
+  }
+
+  Future<void> _initPackageInfo() async {
+    final info = await PackageInfo.fromPlatform();
+    setState(() {
+      _packageInfo = info;
+    });
   }
 
   void _signIn() async {
@@ -49,7 +65,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   }
 
   void _bottomNav() async {
-    await bottomNavigationBuild();
+    await _initPackageInfo();
+    await bottomNavigationBuild(
+        _packageInfo.buildNumber.toString(), _packageInfo.version.toString());
   }
 
   @override
