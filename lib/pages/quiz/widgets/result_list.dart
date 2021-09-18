@@ -102,7 +102,6 @@ class _BuildResultListState extends State<BuildResultList> {
                               padding: const EdgeInsets.only(bottom: 5),
                               child: Card(
                                 child: ExpandablePanel(
-                                  //iconColor: Theme.of(context).primaryColor, TODO color
                                   header: Padding(
                                     padding: const EdgeInsets.all(10.0),
                                     child: Row(

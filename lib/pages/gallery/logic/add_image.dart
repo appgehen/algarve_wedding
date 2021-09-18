@@ -33,7 +33,7 @@ class _AddImageState extends State<AddImage> {
   @override
   void initState() {
     super.initState();
-    imgRef = FirebaseFirestore.instance.collection(gallery.toString());
+    imgRef = FirebaseFirestore.instance.collection('familyGallery');
     if (!uploading) {
       chooseImage();
     }
@@ -77,7 +77,7 @@ class _AddImageState extends State<AddImage> {
         val = i / _image.length;
       });
       ref = firebase_storage.FirebaseStorage.instance
-          .ref()
+          .ref('gallery')
           .child(gallery.toString() + '/${Path.basename(img.path)}');
       await ref.putFile(img).whenComplete(() async {
         await ref.getDownloadURL().then((value) {
@@ -95,12 +95,12 @@ class _AddImageState extends State<AddImage> {
           setState(() {
             uploading = true;
           });
-          uploadFile().whenComplete(
-              () => Navigator.of(context).popUntil((route) => route.isFirst));
+          uploadFile().whenComplete(() => Navigator.of(context).pop());
         },
         label: Text(
           'Hochladen',
-          style: Theme.of(context).textTheme.headline2,
+          style: TextStyle(
+              fontFamily: 'Roboto Light', color: Colors.white, fontSize: 18.0),
         ),
         backgroundColor: Theme.of(context).accentColor,
       );
