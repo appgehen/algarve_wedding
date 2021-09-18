@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:algarve_wedding/widgets/fadein_animation.dart';
 import 'package:algarve_wedding/widgets/header_image.dart';
-import 'package:algarve_wedding/widgets/build_intro-text/intro-text_streambuilder.dart';
 import 'logic/gallery_buildlist.dart';
 
 class ImageGalleryNeu extends StatefulWidget {
@@ -16,7 +15,7 @@ class _ImageGalleryNeuState extends State<ImageGalleryNeu> {
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
-          getHeaderImage('galerie.png', context, true),
+          getHeaderImage('galerie.png', context, false),
           SliverList(
             delegate: SliverChildListDelegate(
               [
@@ -25,11 +24,7 @@ class _ImageGalleryNeuState extends State<ImageGalleryNeu> {
                   Padding(
                     padding: const EdgeInsets.only(
                         left: 10.0, right: 10.0, top: 10.0),
-                    child: Column(
-                      children: [
-                        BuildGalleryList(),
-                      ],
-                    ),
+                    child: BuildGalleryList(),
                   ),
                 ),
               ],

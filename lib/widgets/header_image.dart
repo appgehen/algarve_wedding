@@ -7,7 +7,6 @@ ReturnStorageImage _returnStorageImage = ReturnStorageImage();
 //TODO Optimize loading behaviour. The flickering is anoying
 
 Widget getHeaderImage(String headerImage, BuildContext context, bool pinned) {
-  print('getHeaderImage');
   return SliverAppBar(
     backgroundColor: Theme.of(context).appBarTheme.color,
     expandedHeight: 250.0,

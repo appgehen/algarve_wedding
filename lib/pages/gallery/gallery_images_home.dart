@@ -74,16 +74,20 @@ class _GalleryState extends State<Gallery> {
 
   void _displayImage(imageRef) async {
     final _link = await imageRef.getDownloadURL();
+    String _firebaseURL =
+        "https://firebasestorage.googleapis.com/v0/b/marry-me-cf187.appspot.com";
+    String _imagekitURL = "https://ik.imagekit.io/p9mcy4diyxi";
+    String _url = _link.replaceAll(_firebaseURL, _imagekitURL);
     setState(
       () {
-        _slideShow.add(_link);
+        _slideShow.add(_url + "&tr=w-700");
         _galleryImages.add(
           GestureDetector(
             child: Container(
               height: 200,
               width: 200,
               child: Image(
-                image: CachedNetworkImageProvider(_link),
+                image: CachedNetworkImageProvider(_url + "&tr=w-300"),
                 fit: BoxFit.cover,
               ),
             ),

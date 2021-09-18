@@ -3,8 +3,6 @@ import 'package:algarve_wedding/widgets/fadein_animation.dart';
 import 'package:algarve_wedding/widgets/header_image.dart';
 import 'package:algarve_wedding/widgets/build_intro-text/intro-text_streambuilder.dart';
 import 'timeline_buildlist.dart';
-import 'package:algarve_wedding/logic/bottom-navigation/bottom-navigation_items.dart';
-import 'package:algarve_wedding/design/custom_icons_icons.dart';
 
 class Timeline extends StatefulWidget {
   @override
