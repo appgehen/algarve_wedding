@@ -35,7 +35,6 @@ class _GalleryCollageState extends State<GalleryCollage> {
     var _firebaseStorage = FirebaseStorage.instance.ref('gallery');
     await _firebaseStorage.child(gallery.toString()).listAll().then((result) {
       int _image = result.items.length;
-      print(_image);
       result.items.forEach((imageRef) {
         _displayImage(imageRef, _image);
       });
@@ -44,8 +43,11 @@ class _GalleryCollageState extends State<GalleryCollage> {
 
   void _displayImage(imageRef, int _image) async {
     final _link = await imageRef.getDownloadURL();
-    print(_link);
-    _galleryImages.add(_link);
+    String _firebaseURL =
+        "https://firebasestorage.googleapis.com/v0/b/marry-me-cf187.appspot.com";
+    String _imagekitURL = "https://ik.imagekit.io/p9mcy4diyxi";
+    String _url = _link.replaceAll(_firebaseURL, _imagekitURL);
+    _galleryImages.add(_url + "&tr=n-gallery_thumbnail");
     if (_galleryImages.length == _image) {
       setState(() {
         _isloading = false;

@@ -80,14 +80,15 @@ class _GalleryState extends State<Gallery> {
     String _url = _link.replaceAll(_firebaseURL, _imagekitURL);
     setState(
       () {
-        _slideShow.add(_url + "&tr=w-700");
+        _slideShow.add(_url + "&tr=n-gallery_original_optimized");
         _galleryImages.add(
           GestureDetector(
             child: Container(
               height: 200,
               width: 200,
               child: Image(
-                image: CachedNetworkImageProvider(_url + "&tr=w-300"),
+                image: CachedNetworkImageProvider(
+                    _url + "&tr=n-gallery_thumbnail"),
                 fit: BoxFit.cover,
               ),
             ),

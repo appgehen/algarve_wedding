@@ -51,7 +51,7 @@ class _AddImageState extends State<AddImage> {
   }
 
   void selectImages() async {
-    final pickedFileList = await picker.pickMultiImage(imageQuality: 70);
+    final pickedFileList = await picker.pickMultiImage();
 
     setState(() {
       _imageFileList = pickedFileList;
