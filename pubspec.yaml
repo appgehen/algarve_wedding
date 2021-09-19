@@ -1,7 +1,7 @@
 name: algarve_wedding
 description: Wedding in Portugal App
 
-version: 2.0.9+75
+version: 2.0.10+76
 
 environment:
   sdk: ">=2.8.0 <3.0.0"
