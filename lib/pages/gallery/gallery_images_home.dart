@@ -19,32 +19,16 @@ class _GalleryState extends State<Gallery> {
   String gallery;
   _GalleryState({this.galleryName, this.gallery});
 
+  List<String> _galleryImages = [];
   List<String> _slideShow = [];
   int _imagesLength;
-  List<Widget> _galleryImages = [];
+  List<Widget> _galleryWidgets = [];
   bool _isloading = true;
 
   @override
   void initState() {
-    var _firebaseStorage = FirebaseStorage.instance.ref('gallery');
+    _loadImages();
     super.initState();
-    _firebaseStorage.child(gallery.toString()).listAll().then((_result) {
-      _imagesLength = _result.items.length;
-      if (_imagesLength == 0) {
-        _showGallery();
-      } else {
-        _result.items.forEach((imageRef) {
-          _displayImage(imageRef);
-        });
-      }
-    });
-  }
-
-  void _showGallery() async {
-    await Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) =>
-            AddImage(galleryName: galleryName, gallery: gallery)));
-    await _loadImages();
   }
 
   void _loadImages() async {
@@ -66,10 +50,18 @@ class _GalleryState extends State<Gallery> {
 
   void _clearImageList() async {
     setState(() {
-      _slideShow.clear();
       _galleryImages.clear();
+      _slideShow.clear();
+      _galleryWidgets.clear();
       _isloading = true;
     });
+  }
+
+  void _showGallery() async {
+    await Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) =>
+            AddImage(galleryName: galleryName, gallery: gallery)));
+    await _loadImages();
   }
 
   void _displayImage(imageRef) async {
@@ -78,32 +70,36 @@ class _GalleryState extends State<Gallery> {
         "https://firebasestorage.googleapis.com/v0/b/marry-me-cf187.appspot.com";
     String _imagekitURL = "https://ik.imagekit.io/p9mcy4diyxi";
     String _url = _link.replaceAll(_firebaseURL, _imagekitURL);
-    setState(
-      () {
-        _slideShow.add(_url + "&tr=n-gallery_original_optimized");
-        _galleryImages.add(
-          GestureDetector(
-            child: Container(
-              height: 200,
-              width: 200,
-              child: Image(
-                image: CachedNetworkImageProvider(
-                    _url + "&tr=n-gallery_thumbnail"),
-                fit: BoxFit.cover,
-              ),
-            ),
-            onTap: () {
-              setState(() {
-                ImageViewer.showImageSlider(
-                  images: _slideShow,
-                  startingPosition: 0,
-                  //TODO the position doesn't work
-                );
-              });
-            },
+    _galleryImages.add(_url);
+    _buildGallery(_galleryImages.length);
+  }
+
+  void _buildGallery(int _id) {
+    int _pictureID = _id - 1;
+    print(_id);
+    _slideShow
+        .add(_galleryImages[_pictureID] + "&tr=n-gallery_original_optimized");
+    _galleryWidgets.add(
+      GestureDetector(
+        child: Container(
+          height: 200,
+          width: 200,
+          child: Image(
+            image: CachedNetworkImageProvider(
+                _galleryImages[_pictureID] + "&tr=n-gallery_thumbnail"),
+            fit: BoxFit.cover,
           ),
-        );
-      },
+        ),
+        onTap: () {
+          setState(() {
+            ImageViewer.showImageSlider(
+              images: _slideShow,
+              startingPosition: _pictureID,
+              //TODO the position doesn't work
+            );
+          });
+        },
+      ),
     );
     if (_galleryImages.length == _imagesLength) {
       setState(() {
@@ -137,7 +133,7 @@ class _GalleryState extends State<Gallery> {
                         crossAxisSpacing: 10,
                         mainAxisSpacing: 10,
                         crossAxisCount: 2,
-                        children: _galleryImages,
+                        children: _galleryWidgets,
                       ),
                     ],
                   ),
