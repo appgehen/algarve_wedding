@@ -95,7 +95,6 @@ class _GalleryState extends State<Gallery> {
             ImageViewer.showImageSlider(
               images: _slideShow,
               startingPosition: _pictureID,
-              //TODO the position doesn't work
             );
           });
         },
