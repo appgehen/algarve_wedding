@@ -39,6 +39,7 @@ void bottomNavigationBuild(String buildNumber, String version) async {
     } else if (element["visible"].toString() == "false" &&
         element["feature"] == "Quiz") {
       saveSharedPrefs('aPausaVisibility', 'true');
+      //TODO change this logic and retreive info from Remote Config
     }
   });
 }
