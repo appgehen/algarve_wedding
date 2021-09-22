@@ -42,17 +42,14 @@ class _AddImageState extends State<AddImage> {
   void chooseImage() async {
     await selectImages();
     _imageFileList.forEach((element) {
-      setState(() {
-        _image.add(File(element.path));
+      _image.add(File(element.path));
 
-        if (element.path == null) retrieveLostData();
-      });
+      if (element.path == null) retrieveLostData();
     });
   }
 
   void selectImages() async {
     final pickedFileList = await picker.pickMultiImage();
-
     setState(() {
       _imageFileList = pickedFileList;
     });
@@ -163,6 +160,7 @@ class _AddImageState extends State<AddImage> {
                           ),
                           CircularProgressIndicator(
                             value: val,
+                            color: Theme.of(context).accentColor,
                           )
                         ],
                       ),

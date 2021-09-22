@@ -44,7 +44,7 @@ class _GalleryCollageState extends State<GalleryCollage> {
   void _displayImage(imageRef, int _image) async {
     final _link = await imageRef.getDownloadURL();
     String _firebaseURL =
-        "https://firebasestorage.googleapis.com/v0/b/marry-me-cf187.appspot.com";
+        "https://firebasestorage.googleapis.com:443/v0/b/marry-me-cf187.appspot.com";
     String _imagekitURL = "https://ik.imagekit.io/p9mcy4diyxi";
     String _url = _link.replaceAll(_firebaseURL, _imagekitURL);
     _galleryImages.add(_url + "&tr=n-gallery_thumbnail");

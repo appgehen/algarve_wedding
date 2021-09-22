@@ -67,7 +67,7 @@ class _GalleryState extends State<Gallery> {
   void _displayImage(imageRef) async {
     final _link = await imageRef.getDownloadURL();
     String _firebaseURL =
-        "https://firebasestorage.googleapis.com/v0/b/marry-me-cf187.appspot.com";
+        "https://firebasestorage.googleapis.com:443/v0/b/marry-me-cf187.appspot.com";
     String _imagekitURL = "https://ik.imagekit.io/p9mcy4diyxi";
     String _url = _link.replaceAll(_firebaseURL, _imagekitURL);
     _galleryImages.add(_url);
@@ -76,7 +76,6 @@ class _GalleryState extends State<Gallery> {
 
   void _buildGallery(int _id) {
     int _pictureID = _id - 1;
-    print(_id);
     _slideShow
         .add(_galleryImages[_pictureID] + "&tr=n-gallery_original_optimized");
     _galleryWidgets.add(
