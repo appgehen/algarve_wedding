@@ -48,7 +48,10 @@ class _SaveTheDateState extends State<SaveTheDate> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _isloading
-          ? Center(child: CircularProgressIndicator())
+          ? Center(
+              child: CircularProgressIndicator(
+              color: Theme.of(context).accentColor,
+            ))
           : Stack(
               children: [
                 Builder(

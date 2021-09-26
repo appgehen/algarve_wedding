@@ -69,13 +69,12 @@ class _GalleryCollageState extends State<GalleryCollage> {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.width / 16 * 9,
+                  decoration: FallbackImage(),
                   child: CachedNetworkImage(
                     imageUrl: _galleryImages[0].toString(),
                     fadeInDuration: const Duration(milliseconds: 500),
                     fadeInCurve: Curves.easeIn,
                     fit: BoxFit.cover,
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.width / 16 * 9,
                   ),
                 ),
               ],
@@ -88,28 +87,34 @@ class _GalleryCollageState extends State<GalleryCollage> {
               height: MediaQuery.of(context).size.width / 16 * 9,
               child: Column(
                 children: [
-                  CachedNetworkImage(
-                    imageUrl: _galleryImages[0].toString(),
-                    fadeInDuration: const Duration(milliseconds: 500),
-                    fadeInCurve: Curves.easeIn,
-                    fit: BoxFit.cover,
+                  Container(
                     width: MediaQuery.of(context).size.width,
                     height:
                         (MediaQuery.of(context).size.width / 16 * 4.5) - 1.0,
+                    decoration: FallbackImage(),
+                    child: CachedNetworkImage(
+                      imageUrl: _galleryImages[0].toString(),
+                      fadeInDuration: const Duration(milliseconds: 500),
+                      fadeInCurve: Curves.easeIn,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
                     height: 2.0,
                     color: Colors.white,
                   ),
-                  CachedNetworkImage(
-                    imageUrl: _galleryImages[1].toString(),
-                    fadeInDuration: const Duration(milliseconds: 500),
-                    fadeInCurve: Curves.easeIn,
-                    fit: BoxFit.cover,
+                  Container(
                     width: MediaQuery.of(context).size.width,
                     height:
                         (MediaQuery.of(context).size.width / 16 * 4.5) - 1.0,
+                    decoration: FallbackImage(),
+                    child: CachedNetworkImage(
+                      imageUrl: _galleryImages[1].toString(),
+                      fadeInDuration: const Duration(milliseconds: 500),
+                      fadeInCurve: Curves.easeIn,
+                      fit: BoxFit.cover,
+                    ),
                   )
                 ],
               ),
@@ -122,13 +127,16 @@ class _GalleryCollageState extends State<GalleryCollage> {
               height: MediaQuery.of(context).size.width / 16 * 9,
               child: Column(
                 children: [
-                  CachedNetworkImage(
-                    imageUrl: _galleryImages[0].toString(),
-                    fadeInDuration: const Duration(milliseconds: 500),
-                    fadeInCurve: Curves.easeIn,
-                    fit: BoxFit.cover,
+                  Container(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.width / 16 * 4.5,
+                    decoration: FallbackImage(),
+                    child: CachedNetworkImage(
+                      imageUrl: _galleryImages[0].toString(),
+                      fadeInDuration: const Duration(milliseconds: 500),
+                      fadeInCurve: Curves.easeIn,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   Container(
                     width: (MediaQuery.of(context).size.width) - 20,
@@ -139,15 +147,18 @@ class _GalleryCollageState extends State<GalleryCollage> {
                     children: [
                       Expanded(
                         flex: 1,
-                        child: CachedNetworkImage(
-                          imageUrl: _galleryImages[1].toString(),
-                          fadeInDuration: const Duration(milliseconds: 500),
-                          fadeInCurve: Curves.easeIn,
-                          fit: BoxFit.cover,
+                        child: Container(
                           width: MediaQuery.of(context).size.width,
                           height:
                               (MediaQuery.of(context).size.width / 16 * 4.5) -
                                   2,
+                          decoration: FallbackImage(),
+                          child: CachedNetworkImage(
+                            imageUrl: _galleryImages[1].toString(),
+                            fadeInDuration: const Duration(milliseconds: 500),
+                            fadeInCurve: Curves.easeIn,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                       Container(
@@ -158,15 +169,18 @@ class _GalleryCollageState extends State<GalleryCollage> {
                       ),
                       Expanded(
                         flex: 1,
-                        child: CachedNetworkImage(
-                          imageUrl: _galleryImages[2].toString(),
-                          fadeInDuration: const Duration(milliseconds: 500),
-                          fadeInCurve: Curves.easeIn,
-                          fit: BoxFit.cover,
+                        child: Container(
                           width: MediaQuery.of(context).size.width,
                           height:
                               (MediaQuery.of(context).size.width / 16 * 4.5) -
                                   2,
+                          decoration: FallbackImage(),
+                          child: CachedNetworkImage(
+                            imageUrl: _galleryImages[2].toString(),
+                            fadeInDuration: const Duration(milliseconds: 500),
+                            fadeInCurve: Curves.easeIn,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       )
                     ],
@@ -186,13 +200,16 @@ class _GalleryCollageState extends State<GalleryCollage> {
                     children: [
                       Expanded(
                         flex: 1,
-                        child: CachedNetworkImage(
-                          imageUrl: _galleryImages[0].toString(),
-                          fadeInDuration: const Duration(milliseconds: 500),
-                          fadeInCurve: Curves.easeIn,
-                          fit: BoxFit.cover,
+                        child: Container(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.width / 16 * 4.5,
+                          decoration: FallbackImage(),
+                          child: CachedNetworkImage(
+                            imageUrl: _galleryImages[0].toString(),
+                            fadeInDuration: const Duration(milliseconds: 500),
+                            fadeInCurve: Curves.easeIn,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                       Container(
@@ -202,13 +219,16 @@ class _GalleryCollageState extends State<GalleryCollage> {
                       ),
                       Expanded(
                         flex: 1,
-                        child: CachedNetworkImage(
-                          imageUrl: _galleryImages[1].toString(),
-                          fadeInDuration: const Duration(milliseconds: 500),
-                          fadeInCurve: Curves.easeIn,
-                          fit: BoxFit.cover,
+                        child: Container(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.width / 16 * 4.5,
+                          decoration: FallbackImage(),
+                          child: CachedNetworkImage(
+                            imageUrl: _galleryImages[1].toString(),
+                            fadeInDuration: const Duration(milliseconds: 500),
+                            fadeInCurve: Curves.easeIn,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       )
                     ],
@@ -222,15 +242,18 @@ class _GalleryCollageState extends State<GalleryCollage> {
                     children: [
                       Expanded(
                         flex: 1,
-                        child: CachedNetworkImage(
-                          imageUrl: _galleryImages[2].toString(),
-                          fadeInDuration: const Duration(milliseconds: 500),
-                          fadeInCurve: Curves.easeIn,
-                          fit: BoxFit.cover,
+                        child: Container(
                           width: MediaQuery.of(context).size.width,
                           height:
                               (MediaQuery.of(context).size.width / 16 * 4.5) -
                                   2,
+                          decoration: FallbackImage(),
+                          child: CachedNetworkImage(
+                            imageUrl: _galleryImages[2].toString(),
+                            fadeInDuration: const Duration(milliseconds: 500),
+                            fadeInCurve: Curves.easeIn,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                       Container(
@@ -241,15 +264,18 @@ class _GalleryCollageState extends State<GalleryCollage> {
                       ),
                       Expanded(
                         flex: 1,
-                        child: CachedNetworkImage(
-                          imageUrl: _galleryImages[3].toString(),
-                          fadeInDuration: const Duration(milliseconds: 500),
-                          fadeInCurve: Curves.easeIn,
-                          fit: BoxFit.cover,
+                        child: Container(
                           width: MediaQuery.of(context).size.width,
                           height:
                               (MediaQuery.of(context).size.width / 16 * 4.5) -
                                   2,
+                          decoration: FallbackImage(),
+                          child: CachedNetworkImage(
+                            imageUrl: _galleryImages[3].toString(),
+                            fadeInDuration: const Duration(milliseconds: 500),
+                            fadeInCurve: Curves.easeIn,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       )
                     ],
@@ -269,13 +295,16 @@ class _GalleryCollageState extends State<GalleryCollage> {
                     children: [
                       Expanded(
                         flex: 1,
-                        child: CachedNetworkImage(
-                          imageUrl: _galleryImages[0].toString(),
-                          fadeInDuration: const Duration(milliseconds: 500),
-                          fadeInCurve: Curves.easeIn,
-                          fit: BoxFit.cover,
+                        child: Container(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.width / 16 * 4.5,
+                          decoration: FallbackImage(),
+                          child: CachedNetworkImage(
+                            imageUrl: _galleryImages[0].toString(),
+                            fadeInDuration: const Duration(milliseconds: 500),
+                            fadeInCurve: Curves.easeIn,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                       Container(
@@ -285,13 +314,16 @@ class _GalleryCollageState extends State<GalleryCollage> {
                       ),
                       Expanded(
                         flex: 1,
-                        child: CachedNetworkImage(
-                          imageUrl: _galleryImages[1].toString(),
-                          fadeInDuration: const Duration(milliseconds: 500),
-                          fadeInCurve: Curves.easeIn,
-                          fit: BoxFit.cover,
+                        child: Container(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.width / 16 * 4.5,
+                          decoration: FallbackImage(),
+                          child: CachedNetworkImage(
+                            imageUrl: _galleryImages[1].toString(),
+                            fadeInDuration: const Duration(milliseconds: 500),
+                            fadeInCurve: Curves.easeIn,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       )
                     ],
@@ -305,15 +337,18 @@ class _GalleryCollageState extends State<GalleryCollage> {
                     children: [
                       Expanded(
                         flex: 1,
-                        child: CachedNetworkImage(
-                          imageUrl: _galleryImages[2].toString(),
-                          fadeInDuration: const Duration(milliseconds: 500),
-                          fadeInCurve: Curves.easeIn,
-                          fit: BoxFit.cover,
+                        child: Container(
                           width: MediaQuery.of(context).size.width,
                           height:
                               (MediaQuery.of(context).size.width / 16 * 4.5) -
                                   2,
+                          decoration: FallbackImage(),
+                          child: CachedNetworkImage(
+                            imageUrl: _galleryImages[2].toString(),
+                            fadeInDuration: const Duration(milliseconds: 500),
+                            fadeInCurve: Curves.easeIn,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                       Container(
@@ -324,15 +359,18 @@ class _GalleryCollageState extends State<GalleryCollage> {
                       ),
                       Expanded(
                         flex: 1,
-                        child: CachedNetworkImage(
-                          imageUrl: _galleryImages[3].toString(),
-                          fadeInDuration: const Duration(milliseconds: 500),
-                          fadeInCurve: Curves.easeIn,
-                          fit: BoxFit.cover,
+                        child: Container(
                           width: MediaQuery.of(context).size.width,
                           height:
                               (MediaQuery.of(context).size.width / 16 * 4.5) -
                                   2,
+                          decoration: FallbackImage(),
+                          child: CachedNetworkImage(
+                            imageUrl: _galleryImages[3].toString(),
+                            fadeInDuration: const Duration(milliseconds: 500),
+                            fadeInCurve: Curves.easeIn,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                       Container(
@@ -343,15 +381,18 @@ class _GalleryCollageState extends State<GalleryCollage> {
                       ),
                       Expanded(
                         flex: 1,
-                        child: CachedNetworkImage(
-                          imageUrl: _galleryImages[4].toString(),
-                          fadeInDuration: const Duration(milliseconds: 500),
-                          fadeInCurve: Curves.easeIn,
-                          fit: BoxFit.cover,
+                        child: Container(
                           width: MediaQuery.of(context).size.width,
                           height:
                               (MediaQuery.of(context).size.width / 16 * 4.5) -
                                   2,
+                          decoration: FallbackImage(),
+                          child: CachedNetworkImage(
+                            imageUrl: _galleryImages[4].toString(),
+                            fadeInDuration: const Duration(milliseconds: 500),
+                            fadeInCurve: Curves.easeIn,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       )
                     ],

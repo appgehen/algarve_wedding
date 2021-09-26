@@ -82,7 +82,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: isLoading
-            ? Center(child: CircularProgressIndicator())
+            ? Center(
+                child: CircularProgressIndicator(
+                color: Theme.of(context).accentColor,
+              ))
             : MyBottomNav(),
       ),
     );

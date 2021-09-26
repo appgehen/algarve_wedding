@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_viewer/image_viewer.dart';
 import 'logic/add_image.dart';
+import 'package:algarve_wedding/widgets/fallback_image.dart';
 
 class Gallery extends StatefulWidget {
   final String galleryName;
@@ -35,6 +36,7 @@ class _GalleryState extends State<Gallery> {
   void _loadImages() async {
     var _firebaseStorage = FirebaseStorage.instance.ref('gallery');
     await _clearImageList();
+    await Future.delayed(Duration(seconds: 2));
     setState(() {
       _firebaseStorage
           .child(gallery.toString() + '/thumbs')
@@ -60,6 +62,8 @@ class _GalleryState extends State<Gallery> {
       _galleryWidgets.clear();
       _isloading = true;
     });
+
+    print('ay');
   }
 
   void _showGallery() async {
@@ -92,13 +96,15 @@ class _GalleryState extends State<Gallery> {
     _galleryWidgets.add(
       GestureDetector(
         child: Container(
-          height: 200,
-          width: 200,
-          child: Image(
-            image: CachedNetworkImageProvider(_galleryImages[_pictureID]),
-            fit: BoxFit.cover,
-          ),
-        ),
+            height: 200,
+            width: 200,
+            decoration: FallbackImage(),
+            child: CachedNetworkImage(
+              imageUrl: _galleryImages[_pictureID],
+              fadeInDuration: const Duration(milliseconds: 500),
+              fadeInCurve: Curves.easeIn,
+              fit: BoxFit.cover,
+            )),
         onTap: () {
           setState(() {
             ImageViewer.showImageSlider(
@@ -134,7 +140,10 @@ class _GalleryState extends State<Gallery> {
         child: Container(
           child: Container(
             child: _isloading
-                ? Center(child: CircularProgressIndicator())
+                ? Center(
+                    child: CircularProgressIndicator(
+                    color: Theme.of(context).accentColor,
+                  ))
                 : CustomScrollView(
                     slivers: <Widget>[
                       SliverGrid.count(
