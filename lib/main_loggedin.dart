@@ -53,6 +53,7 @@ class _MyBottomNavState extends State<MyBottomNav> {
             resizeToAvoidBottomInset: false,
             body: SizedBox.expand(
               child: PageView(
+                physics: const NeverScrollableScrollPhysics(),
                 controller: _pageController,
                 onPageChanged: (index) {
                   setState(() => _selectedIndex = index);
