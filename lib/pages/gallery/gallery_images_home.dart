@@ -24,6 +24,7 @@ class _GalleryState extends State<Gallery> {
   int _imagesLength;
   List<Widget> _galleryWidgets = [];
   bool _isloading = true;
+  int countImages;
 
   @override
   void initState() {
@@ -35,7 +36,10 @@ class _GalleryState extends State<Gallery> {
     var _firebaseStorage = FirebaseStorage.instance.ref('gallery');
     await _clearImageList();
     setState(() {
-      _firebaseStorage.child(gallery.toString()).listAll().then((_result) {
+      _firebaseStorage
+          .child(gallery.toString() + '/thumbs')
+          .listAll()
+          .then((_result) {
         _imagesLength = _result.items.length;
         if (_imagesLength == 0) {
           _showGallery();
@@ -50,6 +54,7 @@ class _GalleryState extends State<Gallery> {
 
   void _clearImageList() async {
     setState(() {
+      countImages = 0;
       _galleryImages.clear();
       _slideShow.clear();
       _galleryWidgets.clear();
@@ -66,26 +71,31 @@ class _GalleryState extends State<Gallery> {
 
   void _displayImage(imageRef) async {
     final _link = await imageRef.getDownloadURL();
-    String _firebaseURL =
-        "https://firebasestorage.googleapis.com:443/v0/b/marry-me-cf187.appspot.com";
-    String _imagekitURL = "https://ik.imagekit.io/p9mcy4diyxi";
-    String _url = _link.replaceAll(_firebaseURL, _imagekitURL);
-    _galleryImages.add(_url);
-    _buildGallery(_galleryImages.length);
+    if (_link.toString().contains("500x500.webp")) {
+      countImages = countImages + 1;
+      _galleryImages.add(_link.toString());
+      _buildGallery(_galleryImages.length);
+    } else {
+      countImages = countImages + 1;
+      if (countImages == _imagesLength) {
+        setState(() {
+          _isloading = false;
+        });
+      }
+    }
   }
 
   void _buildGallery(int _id) {
     int _pictureID = _id - 1;
     _slideShow
-        .add(_galleryImages[_pictureID] + "&tr=n-gallery_original_optimized");
+        .add(_galleryImages[_pictureID].replaceAll("500x500", "1500x1500"));
     _galleryWidgets.add(
       GestureDetector(
         child: Container(
           height: 200,
           width: 200,
           child: Image(
-            image: CachedNetworkImageProvider(
-                _galleryImages[_pictureID] + "&tr=n-gallery_thumbnail"),
+            image: CachedNetworkImageProvider(_galleryImages[_pictureID]),
             fit: BoxFit.cover,
           ),
         ),
@@ -99,7 +109,7 @@ class _GalleryState extends State<Gallery> {
         },
       ),
     );
-    if (_galleryImages.length == _imagesLength) {
+    if (countImages == _imagesLength) {
       setState(() {
         _isloading = false;
       });

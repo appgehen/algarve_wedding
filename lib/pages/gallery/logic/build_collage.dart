@@ -21,6 +21,7 @@ class _GalleryCollageState extends State<GalleryCollage> {
   String gallery;
   _GalleryCollageState({this.galleryName, this.gallery});
 
+  int countImages;
   bool _isloading = true;
   List<String> _galleryImages = [];
 
@@ -32,8 +33,12 @@ class _GalleryCollageState extends State<GalleryCollage> {
 
   void loadGallery() async {
     _galleryImages.clear();
+    countImages = 0;
     var _firebaseStorage = FirebaseStorage.instance.ref('gallery');
-    await _firebaseStorage.child(gallery.toString()).listAll().then((result) {
+    await _firebaseStorage
+        .child(gallery.toString() + '/thumbs')
+        .listAll()
+        .then((result) {
       int _image = result.items.length;
       result.items.forEach((imageRef) {
         _displayImage(imageRef, _image);
@@ -43,12 +48,11 @@ class _GalleryCollageState extends State<GalleryCollage> {
 
   void _displayImage(imageRef, int _image) async {
     final _link = await imageRef.getDownloadURL();
-    String _firebaseURL =
-        "https://firebasestorage.googleapis.com:443/v0/b/marry-me-cf187.appspot.com";
-    String _imagekitURL = "https://ik.imagekit.io/p9mcy4diyxi";
-    String _url = _link.replaceAll(_firebaseURL, _imagekitURL);
-    _galleryImages.add(_url + "&tr=n-gallery_thumbnail");
-    if (_galleryImages.length == _image) {
+    countImages = countImages + 1;
+    if (_link.toString().contains("500x500.webp")) {
+      _galleryImages.add(_link.toString());
+    }
+    if (countImages == _image) {
       setState(() {
         _isloading = false;
       });
