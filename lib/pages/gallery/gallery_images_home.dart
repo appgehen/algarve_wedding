@@ -62,8 +62,6 @@ class _GalleryState extends State<Gallery> {
       _galleryWidgets.clear();
       _isloading = true;
     });
-
-    print('ay');
   }
 
   void _showGallery() async {
