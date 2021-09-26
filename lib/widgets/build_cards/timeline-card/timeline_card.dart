@@ -26,7 +26,7 @@ Widget returnTimelineCard(
                 child: Stack(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(left: 22, top: 15, bottom: 15),
+                      padding: EdgeInsets.only(left: 19, top: 15, bottom: 15),
                       child: Row(
                         children: [
                           SizedBox(

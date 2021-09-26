@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'timeline_get_color.dart';
 
 returnTimelineIcon(List itemList, int index, BuildContext context) {
   if (itemList[index]['icon'].toString() != "" &&
-      itemList[index]['color'].toString() != "" &&
+      itemList[index]['colorDark'].toString() != "" &&
+      itemList[index]['colorLight'].toString() != "" &&
       itemList[index]['fontFamily'].toString() != "") {
     return Positioned.fill(
       child: Align(
@@ -13,7 +15,7 @@ returnTimelineIcon(List itemList, int index, BuildContext context) {
               height: 40.0,
               width: 40.0,
               decoration: BoxDecoration(
-                color: Color(int.parse(itemList[index]['color'])),
+                color: getColor(itemList, index, context),
                 borderRadius: BorderRadius.circular(40),
               ),
             ),
