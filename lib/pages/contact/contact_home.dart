@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'widgets/header_image.dart';
 import 'logic/build_cards.dart';
+import 'package:algarve_wedding/logic/shared-prefs/save_prefs.dart';
 
 class Contact extends StatelessWidget {
   @override
@@ -11,6 +12,18 @@ class Contact extends StatelessWidget {
         title: Text(
           'Kontakt',
         ),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(
+              Icons.add,
+              color: Colors.transparent,
+            ),
+            tooltip: 'Show Snackbar',
+            onPressed: () {
+              saveSharedPrefs('adminMode', 'true');
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(

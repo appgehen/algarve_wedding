@@ -16,7 +16,9 @@ class _LandingPageState extends State<LandingPage> {
   @override
   void initState() {
     getThemeMode(context);
-    if (readSharedPrefs('invitationCode').toString().isNotEmpty) {
+    final adminMode = readSharedPrefs('invitationCode');
+    print(adminMode);
+    if (adminMode.toString().isNotEmpty) {
       _sharedPrefs = true;
     } else {
       _sharedPrefs = false;

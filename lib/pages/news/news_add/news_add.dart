@@ -74,7 +74,7 @@ class AddNews extends StatelessWidget {
                       ),
                       TextField(
                         decoration: InputDecoration(
-                          labelText: 'Subline',
+                          labelText: 'Subline (optional)',
                           /*errorText: _validate
                             ? 'Bitte trage einen Spielernamen ein.'
                             : null,*/
