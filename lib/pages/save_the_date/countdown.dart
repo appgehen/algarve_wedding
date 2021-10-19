@@ -32,6 +32,7 @@ class _ShowCountdownTimerState extends State<ShowCountdownTimer> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
+        //TODO Error if one day prior to end
         CountdownTimer(
           controller: controller,
           widgetBuilder: (_, CurrentRemainingTime time) {

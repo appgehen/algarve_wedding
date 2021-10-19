@@ -34,12 +34,13 @@ class _GalleryCollageState extends State<GalleryCollage> {
   void loadGallery() async {
     _galleryImages.clear();
     countImages = 0;
+    int _image;
     var _firebaseStorage = FirebaseStorage.instance.ref('gallery');
     await _firebaseStorage
         .child(gallery.toString() + '/thumbs')
-        .listAll()
+        .list(ListOptions(maxResults: 10))
         .then((result) {
-      int _image = result.items.length;
+      _image = result.items.length;
       result.items.forEach((imageRef) {
         _displayImage(imageRef, _image);
       });
@@ -49,13 +50,14 @@ class _GalleryCollageState extends State<GalleryCollage> {
   void _displayImage(imageRef, int _image) async {
     final _link = await imageRef.getDownloadURL();
     countImages = countImages + 1;
-    if (_link.toString().contains("500x500.webp")) {
-      _galleryImages.add(_link.toString());
-    }
     if (countImages == _image) {
       setState(() {
         _isloading = false;
       });
+    } else {
+      if (_link.toString().contains("500x500.webp")) {
+        _galleryImages.add(_link.toString());
+      }
     }
   }
 
