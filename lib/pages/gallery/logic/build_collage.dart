@@ -50,14 +50,13 @@ class _GalleryCollageState extends State<GalleryCollage> {
   void _displayImage(imageRef, int _image) async {
     final _link = await imageRef.getDownloadURL();
     countImages = countImages + 1;
+    if (_link.toString().contains("500x500.webp")) {
+      _galleryImages.add(_link.toString());
+    }
     if (countImages == _image) {
       setState(() {
         _isloading = false;
       });
-    } else {
-      if (_link.toString().contains("500x500.webp")) {
-        _galleryImages.add(_link.toString());
-      }
     }
   }
 
