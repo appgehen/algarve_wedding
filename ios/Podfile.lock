@@ -349,7 +349,7 @@ PODS:
     - BoringSSL-GRPC/Interface (= 0.0.7)
   - BoringSSL-GRPC/Interface (0.0.7)
   - BSImagePicker (3.3.1)
-  - cloud_firestore (2.5.1):
+  - cloud_firestore (2.5.3):
     - Firebase/Firestore (= 8.6.0)
     - firebase_core
     - Flutter
@@ -602,7 +602,7 @@ SPEC CHECKSUMS:
   assets_audio_player_web: 19826380c44375761aa0b9053665c1e3fbc3b86b
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
   BSImagePicker: 0fe04b574d4d6b81093785d2af6c26227efc8428
-  cloud_firestore: 3280837bd2fdec18489ef93699527df4af4f177d
+  cloud_firestore: bb4fcf1d62a2bf48586fad7a7e9612f20a719cda
   Firebase: 21ac9f28b09a8bdfc005f34c984fca84e7e8786d
   firebase_auth: f103a889e83e4fc3e69b0fe0cd2747ecfcbb33a0
   firebase_core: c21ac09a8d23afd3594b56ed786bad12e5266bba

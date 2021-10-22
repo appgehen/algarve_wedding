@@ -36,7 +36,7 @@ class _GalleryState extends State<Gallery> {
   void _loadImages() async {
     var _firebaseStorage = FirebaseStorage.instance.ref('gallery');
     await _clearImageList();
-    await Future.delayed(Duration(seconds: 2));
+    //await Future.delayed(Duration(seconds: 2));
     setState(() {
       _firebaseStorage
           .child(gallery.toString() + '/thumbs')
@@ -113,7 +113,11 @@ class _GalleryState extends State<Gallery> {
         },
       ),
     );
-    if (countImages == _imagesLength) {
+    if (_id == 10) {
+      setState(() {
+        _isloading = false;
+      });
+    } else if (countImages == _imagesLength) {
       setState(() {
         _isloading = false;
       });
