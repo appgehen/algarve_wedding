@@ -6,6 +6,8 @@
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>NSPhotoLibraryUsageDescription</key>
     <string>This app requires access to the photo library.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+    <string>This app requires access to your photo library.</string>
     <key>NSCameraUsageDescription</key>
     <string>This app requires access to the camera.</string>
 	<key>CFBundleDisplayName</key>

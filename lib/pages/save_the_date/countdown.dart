@@ -38,7 +38,7 @@ class _ShowCountdownTimerState extends State<ShowCountdownTimer> {
           widgetBuilder: (_, CurrentRemainingTime time) {
             if (DateTime.now().millisecondsSinceEpoch > endTimeTimestamp) {
               return Text(
-                'Endlich ist es soweit!',
+                'Wir haben JA gesagt!',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headline5,
               );

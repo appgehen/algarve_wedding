@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/services.dart';
 import 'package:image_viewer/image_viewer.dart';
 import 'logic/add_image.dart';
 import 'package:algarve_wedding/widgets/fallback_image.dart';
+import 'package:image_downloader/image_downloader.dart';
+import 'package:algarve_wedding/logic/return_storage-image.dart';
+
+ReturnStorageImage _returnStorageImage = ReturnStorageImage();
 
 class Gallery extends StatefulWidget {
   final String galleryName;
@@ -18,6 +23,8 @@ class Gallery extends StatefulWidget {
 class _GalleryState extends State<Gallery> {
   String galleryName;
   String gallery;
+  bool download = false;
+  bool downloadHint = false;
   _GalleryState({this.galleryName, this.gallery});
 
   List<String> _galleryImages = [];
@@ -26,6 +33,7 @@ class _GalleryState extends State<Gallery> {
   List<Widget> _galleryWidgets = [];
   bool _isloading = true;
   int countImages;
+  bool downloadInProgress = false;
 
   @override
   void initState() {
@@ -105,10 +113,17 @@ class _GalleryState extends State<Gallery> {
             )),
         onTap: () {
           setState(() {
-            ImageViewer.showImageSlider(
-              images: _slideShow,
-              startingPosition: _pictureID,
-            );
+            if (download == false) {
+              ImageViewer.showImageSlider(
+                images: _slideShow,
+                startingPosition: _pictureID,
+              );
+            } else if (download == true) {
+              setState(() {
+                downloadInProgress = true;
+              });
+              _downloadImage(_galleryImages[_pictureID]);
+            }
           });
         },
       ),
@@ -124,18 +139,81 @@ class _GalleryState extends State<Gallery> {
     }
   }
 
+  void _downloadImage(String _imageURL) async {
+    String _finalUrl = _imageURL
+        .replaceAll("%2Fthumbs", "")
+        .replaceAll("_500x500", "")
+        .replaceAll(".webp", ".jpg")
+        .replaceAll(
+            "https://firebasestorage.googleapis.com:443/v0/b/marry-me-cf187.appspot.com/o/",
+            "")
+        .replaceAll("%2F", "/");
+
+    String _result = _finalUrl.substring(0, _finalUrl.indexOf('?alt=media'));
+
+    await _returnStorageImage.getImageURL(_result).then((_value) {
+      _finalDownload(_value);
+    });
+  }
+
+  void _finalDownload(String _value) async {
+    await ImageDownloader.downloadImage(_value);
+    setState(() {
+      downloadInProgress = false;
+    });
+    _showSnackbar();
+  }
+
+  void _showSnackbar() {
+    final snackBar = SnackBar(content: const Text('Download erfolgreich'));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(galleryName.toString()),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _showGallery();
-        },
-        child: Icon(Icons.camera_alt_outlined),
-        backgroundColor: Theme.of(context).accentColor,
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          if (download == false)
+            FloatingActionButton(
+              onPressed: () {
+                setState(() {
+                  download = true;
+                  downloadHint = true;
+                });
+              },
+              child: Icon(Icons.download),
+              backgroundColor: Theme.of(context).accentColor,
+            ),
+          if (download == false)
+            Padding(
+              padding: const EdgeInsets.only(left: 15.0),
+              child: FloatingActionButton(
+                onPressed: () {
+                  _showGallery();
+                },
+                child: Icon(Icons.camera_alt_outlined),
+                backgroundColor: Theme.of(context).accentColor,
+              ),
+            ),
+          if (download == true)
+            Padding(
+              padding: const EdgeInsets.only(left: 15.0),
+              child: FloatingActionButton(
+                onPressed: () {
+                  setState(() {
+                    download = false;
+                  });
+                },
+                child: Icon(Icons.done),
+                backgroundColor: Theme.of(context).accentColor,
+              ),
+            ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -144,18 +222,84 @@ class _GalleryState extends State<Gallery> {
             child: _isloading
                 ? Center(
                     child: CircularProgressIndicator(
-                    color: Theme.of(context).accentColor,
-                  ))
-                : CustomScrollView(
-                    slivers: <Widget>[
-                      SliverGrid.count(
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
-                        crossAxisCount: 2,
-                        children: _galleryWidgets,
+                      color: Theme.of(context).accentColor,
+                    ),
+                  )
+                : Stack(children: [
+                    CustomScrollView(
+                      slivers: <Widget>[
+                        SliverGrid.count(
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                          crossAxisCount: 2,
+                          children: _galleryWidgets,
+                        ),
+                      ],
+                    ),
+                    if (downloadHint == true)
+                      AlertDialog(
+                        title: Text(
+                          "Bilder herunterladen",
+                          style: TextStyle(
+                            fontFamily: 'Amatic Regular',
+                            height: 1.5,
+                            fontSize: 35,
+                            color: Colors.white,
+                          ),
+                        ),
+                        content: Text(
+                          "Tippe einfach auf das Bild, das Du herunterladen möchtest. Sobald Du fertig bist kannst Du den Download Modus über den Button unten rechts wieder beenden.",
+                          style: TextStyle(
+                            fontSize: 15.0,
+                            height: 1.5,
+                            color: Colors.white,
+                          ),
+                        ),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: Text(
+                              'Verstanden',
+                              style: TextStyle(
+                                fontSize: 15.0,
+                                height: 1.5,
+                                color: Colors.white,
+                              ),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                downloadHint = false;
+                              });
+                            },
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    if (downloadInProgress == true)
+                      Center(
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  child: Text(
+                                    'Lade das Bilder herunter...',
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                CircularProgressIndicator(
+                                  color: Theme.of(context).accentColor,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                  ]),
           ),
         ),
       ),

@@ -106,7 +106,7 @@ class _SaveTheDateState extends State<SaveTheDate> {
                                   child: FittedBox(
                                     fit: BoxFit.fitWidth,
                                     child: Text(
-                                      'Alicia & Daniel \nheiraten',
+                                      'Alicia & Daniel',
                                       textAlign: TextAlign.center,
                                       style:
                                           Theme.of(context).textTheme.headline6,
