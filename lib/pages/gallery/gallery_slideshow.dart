@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:image_downloader/image_downloader.dart';
 import 'package:algarve_wedding/logic/return_storage-image.dart';
+import 'logic/download_image_show_snackbar.dart';
 
 class SlideShow extends StatefulWidget {
   final int pictureID;
@@ -150,12 +151,7 @@ class _SlideShowState extends State<SlideShow> {
     setState(() {
       downloadInProgress = false;
     });
-    _showSnackbar();
-  }
-
-  void _showSnackbar() {
-    final snackBar = SnackBar(content: const Text('Download erfolgreich'));
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    showSnackbar(context);
   }
 
   _onPageViewChange(int page) {
