@@ -7,7 +7,7 @@ import 'package:algarve_wedding/pages/quiz/quiz_home.dart';
 import 'package:algarve_wedding/pages/news/news_home.dart';
 import 'package:algarve_wedding/pages/timeline/timeline_home.dart';
 import 'package:algarve_wedding/pages/gallery/gallery_overview_home.dart';
-import 'package:algarve_wedding/pages/gallery/gallery_slideshow.dart';
+import 'package:algarve_wedding/pages/gallery/logic/cast.dart';
 import 'bottom-navigation_load_items.dart';
 import '../../logic/shared-prefs/save_prefs.dart';
 

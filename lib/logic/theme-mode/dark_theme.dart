@@ -12,7 +12,7 @@ ThemeData darkThemeData() {
     appBarTheme: AppBarTheme(
       color: Color.fromRGBO(33, 33, 33, 1),
       textTheme: TextTheme(
-        title: TextStyle(
+        caption: TextStyle(
           fontSize: 18.0,
           fontFamily: 'Roboto Light',
           color: Colors.white,

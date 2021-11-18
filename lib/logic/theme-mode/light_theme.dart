@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:algarve_wedding/pages/quiz/quiz_logic.dart';
 import 'package:flutter/material.dart';
 
@@ -16,12 +18,10 @@ ThemeData lightThemeData() {
     dialogBackgroundColor: Color.fromRGBO(33, 33, 33, 1),
     appBarTheme: AppBarTheme(
       color: Color.fromRGBO(33, 62, 90, 1),
-      textTheme: TextTheme(
-        title: TextStyle(
-          fontSize: 18.0,
-          fontFamily: 'Roboto Light',
-          color: Colors.white,
-        ),
+      titleTextStyle: TextStyle(
+        fontSize: 18.0,
+        fontFamily: 'Roboto Light',
+        color: Colors.white,
       ),
     ),
     backgroundColor: Colors.white,
