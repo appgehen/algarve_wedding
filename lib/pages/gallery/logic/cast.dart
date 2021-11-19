@@ -4,16 +4,8 @@ import 'package:cast/cast.dart';
 class TestCast extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Cast Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: Scaffold(
-        appBar: AppBar(),
-        body: MyHomePage(),
-      ),
+    return Scaffold(
+      body: MyHomePage(),
     );
   }
 }
@@ -54,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               Center(
                 child: Text(
-                  'No Chromecast founded',
+                  'No Chromecast found',
                 ),
               ),
             ],
@@ -143,13 +135,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _sendMessagePlayVideo(CastSession session) {
-    print('_sendMessagePlayVideo');
-
     var message = {
       // Here you can plug an URL to any mp4, webm, mp3 or jpg file with the proper contentType.
       'contentId':
-          'http://commondatastorage.googleapis.com/gtv-videos-bucket/big_buck_bunny_1080p.mp4',
-      'contentType': 'video/mp4',
+          'https://firebasestorage.googleapis.com/v0/b/marry-me-cf187.appspot.com/o/gallery%2FfamilyGallery%2Fimage_picker1208539826640040265.jpg?alt=media&token=b34d9dd3-a719-441b-9b8a-5ee6031332f0',
+      'contentType': 'image/jpg',
       'streamType': 'BUFFERED', // or LIVE
 
       // Title and cover displayed while buffering

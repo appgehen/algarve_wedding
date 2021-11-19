@@ -6,7 +6,7 @@ import 'logic/add_image.dart';
 import 'package:algarve_wedding/widgets/fallback_image.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
-import 'gallery_slideshow.dart';
+import 'slideshow/gallery_slideshow.dart';
 import 'package:flutter/cupertino.dart';
 
 class Gallery extends StatefulWidget {
@@ -136,10 +136,12 @@ class _GalleryState extends State<Gallery> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => SlideShow(
-                      pictureID: _pictureID,
-                      slideShowNew: _slideShowNew,
-                      galleryName: galleryName,
-                      galleryImages: _galleryImages),
+                    pictureID: _pictureID,
+                    slideShowNew: _slideShowNew,
+                    galleryName: galleryName,
+                    galleryImages: _galleryImages,
+                    allPictures: _imageData,
+                  ),
                 ));
           });
         },

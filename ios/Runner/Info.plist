@@ -14,6 +14,15 @@
 	<string>Alicia &amp; Daniel</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+	<key>NSBonjourServices</key>
+    <array>
+      <string>_googlecast._tcp</string>
+      <string>appgehen.marryinportugal._googlecast._tcp</string>
+    </array>
+
+    <key>NSLocalNetworkUsageDescription</key>
+    <string>${PRODUCT_NAME} uses the local network to discover Cast-enabled devices on your WiFi
+    network.</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
