@@ -55,6 +55,7 @@ class SlideShowState extends State<SlideShow> {
   String _imageCast;
   Future<List<CastDevice>> _future;
   CastSession _testSession;
+  CastDevice _connectedDevice;
 
   bool downloadInProgress = false;
 
@@ -65,6 +66,14 @@ class SlideShowState extends State<SlideShow> {
     _imageCast = galleryImages[pictureID].replaceAll("500x500", "1500x1500");
     _startSearch();
   }
+
+  /*void dispose() {
+    _endSession();
+  }
+
+  Future<void> _endSession() async {
+    CastSessionManager().endSession(_connectedDevice.toString());
+  }*/
 
   void _startSearch() {
     _future = CastDiscoveryService().search();
@@ -100,23 +109,30 @@ class SlideShowState extends State<SlideShow> {
   //Adds images to the slideshow while the user is scrolling through the images.
   void _addImages() async {
     if (pictureID + 1 == slideShowNew.length) {
-      _addImageToSlideshow();
+      await _addImageToSlideshow();
+      setState(() {});
     }
     if (slideShowNew.length < allPictures.length) {
-      _addImageToSlideshow();
+      await _addImageToSlideshow();
+      setState(() {});
     }
     setState(() {});
   }
 
   void _addImageToSlideshow() async {
-    final _link = await allPictures[slideShowNew.length + 1].getDownloadURL();
-    slideShowNew.add(PhotoViewGalleryPageOptions(
-      imageProvider:
-          NetworkImage(_link.toString().replaceAll("500x500", "1500x1500")),
-      minScale: PhotoViewComputedScale.contained * 0.8,
-      maxScale: PhotoViewComputedScale.covered * 1.8,
-      initialScale: PhotoViewComputedScale.contained,
-    ));
+    print(slideShowNew.length);
+    final _link = await allPictures[slideShowNew.length].getDownloadURL();
+    setState(() {
+      slideShowNew.add(
+        PhotoViewGalleryPageOptions(
+          imageProvider:
+              NetworkImage(_link.toString().replaceAll("500x500", "1500x1500")),
+          minScale: PhotoViewComputedScale.contained * 0.8,
+          maxScale: PhotoViewComputedScale.covered * 1.8,
+          initialScale: PhotoViewComputedScale.contained,
+        ),
+      );
+    });
   }
 
   Future<void> _connectAndPlayMedia(
@@ -192,17 +208,38 @@ class SlideShowState extends State<SlideShow> {
                       barrierDismissible: false, // user must tap button!
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: const Text('AlertDialog Title'),
+                          title: const Text(
+                            'Gerät wählen',
+                            style: TextStyle(
+                              fontFamily: 'Amatic Regular',
+                              height: 1.5,
+                              fontSize: 35,
+                              color: Colors.white,
+                            ),
+                          ),
                           content: SingleChildScrollView(
                             child: ListBody(
                               children: <Widget>[
                                 Column(
                                   children: snapshot.data.map((device) {
                                     return ListTile(
-                                      title: Text(device.name),
+                                      tileColor: Theme.of(context).accentColor,
+                                      title: Text(
+                                        device.name,
+                                        style: TextStyle(
+                                          fontSize: 15.0,
+                                          height: 1.5,
+                                          fontFamily: 'Roboto Light',
+                                          color: Colors.white,
+                                        ),
+                                      ),
                                       onTap: () {
                                         print(device);
-                                        _connectAndPlayMedia(context, device);
+                                        _connectedDevice = device;
+                                        _connectAndPlayMedia(context, device)
+                                            .then((value) {
+                                          Navigator.of(context).pop();
+                                        });
                                       },
                                     );
                                   }).toList(),
@@ -212,7 +249,7 @@ class SlideShowState extends State<SlideShow> {
                           ),
                           actions: <Widget>[
                             TextButton(
-                              child: const Text('Approve'),
+                              child: const Text('Abbrechen'),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
