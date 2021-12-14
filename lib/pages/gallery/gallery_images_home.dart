@@ -8,6 +8,7 @@ import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'slideshow/gallery_slideshow.dart';
 import 'package:flutter/cupertino.dart';
+import 'logic/session.dart';
 
 class Gallery extends StatefulWidget {
   final String galleryName;
@@ -100,8 +101,9 @@ class _GalleryState extends State<Gallery> {
 
   void _displayImage(int start, int end) async {
     for (var i = start; i < end; i++) {
+      print(i);
+      print(_imageData[i]);
       final _link = await _imageData[i].getDownloadURL();
-
       setState(() {
         _galleryImages.add(_link.toString());
         _buildGallery(_galleryImages.length, end);
@@ -142,7 +144,7 @@ class _GalleryState extends State<Gallery> {
                     galleryImages: _galleryImages,
                     allPictures: _imageData,
                   ),
-                ));
+                )).then((value) => print(castSession));
           });
         },
       ),

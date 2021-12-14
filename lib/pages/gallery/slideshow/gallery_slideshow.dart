@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'dart:async';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:algarve_wedding/logic/return_storage-image.dart';
@@ -9,6 +10,7 @@ import 'logic/download_image.dart';
 import 'package:cast/cast.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:photo_view/photo_view.dart';
+import '../logic/session.dart';
 
 class SlideShow extends StatefulWidget {
   final int pictureID;
@@ -54,7 +56,6 @@ class SlideShowState extends State<SlideShow> {
 
   String _imageCast;
   Future<List<CastDevice>> _future;
-  CastSession _testSession;
   CastDevice _connectedDevice;
 
   bool downloadInProgress = false;
@@ -64,16 +65,21 @@ class SlideShowState extends State<SlideShow> {
     super.initState();
     _addImages();
     _imageCast = galleryImages[pictureID].replaceAll("500x500", "1500x1500");
+    print(allPictures[21]);
+    if (castSession == null) {
+      _startSearch();
+    } else if (castSession.state != null &&
+        castSession.state == CastSessionState.connected) {
+      _onPageViewChange(pictureID);
+    } else if (castSession.state == CastSessionState.closed) {
+      _startSearch();
+    }
+  }
+
+  void _endSession() async {
+    castSession.close();
     _startSearch();
   }
-
-  /*void dispose() {
-    _endSession();
-  }
-
-  Future<void> _endSession() async {
-    CastSessionManager().endSession(_connectedDevice.toString());
-  }*/
 
   void _startSearch() {
     _future = CastDiscoveryService().search();
@@ -97,32 +103,33 @@ class SlideShowState extends State<SlideShow> {
     });
   }
 
-  _onPageViewChange(int page) {
+  _onPageViewChange(int page) async {
     pictureID = page;
-    _addImages();
+    await _addImages();
     setState(() {
       _imageCast = galleryImages[pictureID].replaceAll("500x500", "1500x1500");
     });
-    _sendMessagePlayVideo(_testSession);
+    _sendMessageShowPhoto(castSession);
   }
 
   //Adds images to the slideshow while the user is scrolling through the images.
   void _addImages() async {
-    if (pictureID + 1 == slideShowNew.length) {
-      await _addImageToSlideshow();
+    /*if (pictureID + 1 == slideShowNew.length) {
+      print("ping");
+      //await _addImageToSlideshow();
       setState(() {});
-    }
+    }*/
     if (slideShowNew.length < allPictures.length) {
-      await _addImageToSlideshow();
+      await _addImageToSlideshow(slideShowNew.length);
       setState(() {});
     }
     setState(() {});
   }
 
-  void _addImageToSlideshow() async {
-    print(slideShowNew.length);
-    final _link = await allPictures[slideShowNew.length].getDownloadURL();
+  void _addImageToSlideshow(int nextImage) async {
+    final _link = await allPictures[nextImage].getDownloadURL();
     setState(() {
+      galleryImages.add(_link.toString().replaceAll("500x500", "1500x1500"));
       slideShowNew.add(
         PhotoViewGalleryPageOptions(
           imageProvider:
@@ -133,6 +140,8 @@ class SlideShowState extends State<SlideShow> {
         ),
       );
     });
+
+    print(slideShowNew[21]);
   }
 
   Future<void> _connectAndPlayMedia(
@@ -146,9 +155,9 @@ class SlideShowState extends State<SlideShow> {
       print('receive message: $message');
 
       if (index == 2) {
-        _testSession = session;
+        castSession = session;
         Future.delayed(Duration(seconds: 5)).then((x) {
-          _sendMessagePlayVideo(_testSession);
+          _sendMessageShowPhoto(castSession);
         });
       }
     });
@@ -159,15 +168,15 @@ class SlideShowState extends State<SlideShow> {
     });
   }
 
-  void _sendMessagePlayVideo(CastSession session) {
+  void _sendMessageShowPhoto(CastSession session) {
     var message = {
       // Here you can plug an URL to any mp4, webm, mp3 or jpg file with the proper contentType.
       'contentId': _imageCast,
       'contentType': 'image/jpg',
-      'streamType': 'BUFFERED', // or LIVE
+      'streamType': 'LIVE', // or LIVE
 
       // Title and cover displayed while buffering
-      'metadata': {
+      /*'metadata': {
         'type': 0,
         'metadataType': 0,
         'title': "Big Buck Bunny",
@@ -177,7 +186,7 @@ class SlideShowState extends State<SlideShow> {
                 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg'
           }
         ]
-      }
+      }*/
     };
 
     session.sendMessage(CastSession.kNamespaceMedia, {
@@ -194,77 +203,165 @@ class SlideShowState extends State<SlideShow> {
       appBar: AppBar(
         title: Text(galleryName),
         actions: <Widget>[
-          FutureBuilder<List<CastDevice>>(
-            future: _future,
-            builder: (context, snapshot) {
-              if (snapshot.data == null) {
-                return Container();
-              } else if (snapshot.data.isNotEmpty) {
-                return IconButton(
-                  icon: const Icon(Icons.cast),
-                  onPressed: () {
-                    return showDialog<void>(
-                      context: context,
-                      barrierDismissible: false, // user must tap button!
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text(
-                            'Gerät wählen',
-                            style: TextStyle(
-                              fontFamily: 'Amatic Regular',
-                              height: 1.5,
-                              fontSize: 35,
-                              color: Colors.white,
+          if (castSession != null && castSession.state != null)
+            if (castSession.state == CastSessionState.connected)
+              IconButton(
+                icon: const Icon(
+                  Icons.cast_connected,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  _endSession();
+                },
+              ),
+          if (castSession != null &&
+              castSession.state != null &&
+              castSession.state == CastSessionState.closed)
+            FutureBuilder<List<CastDevice>>(
+              future: _future,
+              builder: (context, snapshot) {
+                if (snapshot.data == null) {
+                  return Container();
+                } else if (snapshot.data.isNotEmpty) {
+                  return IconButton(
+                    icon: const Icon(Icons.cast),
+                    onPressed: () {
+                      return showDialog<void>(
+                        context: context,
+                        barrierDismissible: false, // user must tap button!
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text(
+                              'Gerät wählen',
+                              style: TextStyle(
+                                fontFamily: 'Amatic Regular',
+                                height: 1.5,
+                                fontSize: 35,
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
-                          content: SingleChildScrollView(
-                            child: ListBody(
-                              children: <Widget>[
-                                Column(
-                                  children: snapshot.data.map((device) {
-                                    return ListTile(
-                                      tileColor: Theme.of(context).accentColor,
-                                      title: Text(
-                                        device.name,
-                                        style: TextStyle(
-                                          fontSize: 15.0,
-                                          height: 1.5,
-                                          fontFamily: 'Roboto Light',
-                                          color: Colors.white,
+                            content: SingleChildScrollView(
+                              child: ListBody(
+                                children: <Widget>[
+                                  Column(
+                                    children: snapshot.data.map((device) {
+                                      return ListTile(
+                                        tileColor:
+                                            Theme.of(context).accentColor,
+                                        title: Text(
+                                          device.name,
+                                          style: TextStyle(
+                                            fontSize: 15.0,
+                                            height: 1.5,
+                                            fontFamily: 'Roboto Light',
+                                            color: Colors.white,
+                                          ),
                                         ),
-                                      ),
-                                      onTap: () {
-                                        print(device);
-                                        _connectedDevice = device;
-                                        _connectAndPlayMedia(context, device)
-                                            .then((value) {
-                                          Navigator.of(context).pop();
-                                        });
-                                      },
-                                    );
-                                  }).toList(),
-                                )
-                              ],
+                                        onTap: () {
+                                          print(device);
+                                          _connectedDevice = device;
+                                          _connectAndPlayMedia(context, device)
+                                              .then((value) {
+                                            Navigator.of(context).pop();
+                                          });
+                                        },
+                                      );
+                                    }).toList(),
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                          actions: <Widget>[
-                            TextButton(
-                              child: const Text('Abbrechen'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
+                            actions: <Widget>[
+                              TextButton(
+                                child: const Text('Abbrechen'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            ),
+          if (castSession == null)
+            FutureBuilder<List<CastDevice>>(
+              future: _future,
+              builder: (context, snapshot) {
+                if (snapshot.data == null) {
+                  return Container();
+                } else if (snapshot.data.isNotEmpty) {
+                  return IconButton(
+                    icon: const Icon(Icons.cast),
+                    onPressed: () {
+                      return showDialog<void>(
+                        context: context,
+                        barrierDismissible: false, // user must tap button!
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text(
+                              'Gerät wählen',
+                              style: TextStyle(
+                                fontFamily: 'Amatic Regular',
+                                height: 1.5,
+                                fontSize: 35,
+                                color: Colors.white,
+                              ),
                             ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                );
-              } else {
-                return Container();
-              }
-            },
-          ),
+                            content: SingleChildScrollView(
+                              child: ListBody(
+                                children: <Widget>[
+                                  Column(
+                                    children: snapshot.data.map((device) {
+                                      return ListTile(
+                                        tileColor:
+                                            Theme.of(context).accentColor,
+                                        title: Text(
+                                          device.name,
+                                          style: TextStyle(
+                                            fontSize: 15.0,
+                                            height: 1.5,
+                                            fontFamily: 'Roboto Light',
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        onTap: () {
+                                          print(device);
+                                          _connectedDevice = device;
+                                          _connectAndPlayMedia(context, device)
+                                              .then((value) {
+                                            Navigator.of(context).pop();
+                                          });
+                                        },
+                                      );
+                                    }).toList(),
+                                  )
+                                ],
+                              ),
+                            ),
+                            actions: <Widget>[
+                              TextButton(
+                                child: const Text('Abbrechen'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            ),
           IconButton(
             icon: const Icon(Icons.download),
             onPressed: () {
