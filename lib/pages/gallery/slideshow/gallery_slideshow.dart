@@ -11,44 +11,30 @@ import 'package:cast/cast.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:photo_view/photo_view.dart';
 import '../logic/session.dart';
+import '../logic/images/display_images.dart';
 
 class SlideShow extends StatefulWidget {
   final int pictureID;
-  final List<PhotoViewGalleryPageOptions> slideShowNew;
   final String galleryName;
-  final List<String> galleryImages;
-  final List allPictures;
   const SlideShow({
     Key key,
     this.pictureID,
-    this.slideShowNew,
     this.galleryName,
-    this.galleryImages,
-    this.allPictures,
   }) : super(key: key);
 
   @override
   SlideShowState createState() => SlideShowState(
         pictureID: this.pictureID,
-        slideShowNew: this.slideShowNew,
         galleryName: this.galleryName,
-        galleryImages: this.galleryImages,
-        allPictures: this.allPictures,
       );
 }
 
 class SlideShowState extends State<SlideShow> {
   int pictureID;
-  List<PhotoViewGalleryPageOptions> slideShowNew;
   String galleryName;
-  List<String> galleryImages;
-  List allPictures;
   SlideShowState({
     this.pictureID,
-    this.slideShowNew,
     this.galleryName,
-    this.galleryImages,
-    this.allPictures,
   });
 
   PageController get _pageController => PageController(initialPage: pictureID);
@@ -63,9 +49,7 @@ class SlideShowState extends State<SlideShow> {
   @override
   void initState() {
     super.initState();
-    _addImages();
     _imageCast = galleryImages[pictureID].replaceAll("500x500", "1500x1500");
-    print(allPictures[21]);
     if (castSession == null) {
       _startSearch();
     } else if (castSession.state != null &&
@@ -104,44 +88,14 @@ class SlideShowState extends State<SlideShow> {
   }
 
   _onPageViewChange(int page) async {
+    //TODO If first picture in SlideShow is last one I have to load one additional picture
     pictureID = page;
-    await _addImages();
+    await displayImage(
+        galleryImages.length, galleryImages.length + 2, context, galleryName);
     setState(() {
       _imageCast = galleryImages[pictureID].replaceAll("500x500", "1500x1500");
     });
     _sendMessageShowPhoto(castSession);
-  }
-
-  //Adds images to the slideshow while the user is scrolling through the images.
-  void _addImages() async {
-    /*if (pictureID + 1 == slideShowNew.length) {
-      print("ping");
-      //await _addImageToSlideshow();
-      setState(() {});
-    }*/
-    if (slideShowNew.length < allPictures.length) {
-      await _addImageToSlideshow(slideShowNew.length);
-      setState(() {});
-    }
-    setState(() {});
-  }
-
-  void _addImageToSlideshow(int nextImage) async {
-    final _link = await allPictures[nextImage].getDownloadURL();
-    setState(() {
-      galleryImages.add(_link.toString().replaceAll("500x500", "1500x1500"));
-      slideShowNew.add(
-        PhotoViewGalleryPageOptions(
-          imageProvider:
-              NetworkImage(_link.toString().replaceAll("500x500", "1500x1500")),
-          minScale: PhotoViewComputedScale.contained * 0.8,
-          maxScale: PhotoViewComputedScale.covered * 1.8,
-          initialScale: PhotoViewComputedScale.contained,
-        ),
-      );
-    });
-
-    print(slideShowNew[21]);
   }
 
   Future<void> _connectAndPlayMedia(
@@ -377,7 +331,7 @@ class SlideShowState extends State<SlideShow> {
             decoration: BoxDecoration(color: Colors.black),
             child: PhotoViewGallery(
               pageController: _pageController,
-              pageOptions: slideShowNew,
+              pageOptions: slideShowImages,
               loadingBuilder: (context, progress) => Center(
                 child: Container(
                   width: 20.0,
