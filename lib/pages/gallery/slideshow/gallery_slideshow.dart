@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'dart:async';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:algarve_wedding/logic/return_storage-image.dart';
@@ -8,8 +7,6 @@ import 'widgets/download_status.dart';
 import 'logic/download_fetchimage.dart';
 import 'logic/download_image.dart';
 import 'package:cast/cast.dart';
-import 'package:photo_view/photo_view_gallery.dart';
-import 'package:photo_view/photo_view.dart';
 import '../logic/session.dart';
 import '../logic/images/display_images.dart';
 
@@ -118,7 +115,7 @@ class SlideShowState extends State<SlideShow> {
 
     session.sendMessage(CastSession.kNamespaceReceiver, {
       'type': 'LAUNCH',
-      'appId': 'CC1AD845', // set the appId of your app here
+      'appId': '865830AF' // set the appId of your app here
     });
   }
 
