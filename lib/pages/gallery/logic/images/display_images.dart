@@ -6,28 +6,46 @@ import 'package:photo_view/photo_view.dart';
 import 'package:flutter/material.dart';
 import '../../slideshow/gallery_slideshow.dart';
 
-void displayImage(
-    int start, int end, BuildContext context, String galleryName) async {
-  for (var i = start; i < end; i++) {
-    final _link = await rawImageData[i].getDownloadURL();
-    galleryImages.insertAll(i, [_link.toString()]);
-    await _buildGallery(galleryImages.length, end, context, galleryName);
+void displayImage(int start, int end, BuildContext context, String galleryName,
+    String origin) async {
+  if (origin == "gallery" && galleryWidgets.length != slideShowImages.length) {
+    for (var i = galleryWidgets.length; i < slideShowImages.length; i++) {
+      await _addGalleryWidgets(i, context, galleryName);
+    }
+  } else if (origin == "gallery" &&
+      galleryWidgets.length == slideShowImages.length) {
+    for (var i = start; i < end; i++) {
+      final _link = await rawImageData[i].getDownloadURL();
+      galleryImages.add(_link.toString());
+      await _addGalleryWidgets(i, context, galleryName);
+      await _buildGallery(i, context, galleryName);
+    }
+  } else {
+    for (var i = start; i < end; i++) {
+      final _link = await rawImageData[i].getDownloadURL();
+      galleryImages.add(_link.toString());
+      await _buildGallery(i, context, galleryName);
+    }
   }
 }
 
 void _buildGallery(
-    int _id, int end, BuildContext context, String galleryName) async {
-  int _pictureID = _id - 1;
-  slideShowImages.insertAll(_pictureID, [
-    PhotoViewGalleryPageOptions(
-      imageProvider: NetworkImage(
-          galleryImages[_pictureID].replaceAll("500x500", "1500x1500")),
-      minScale: PhotoViewComputedScale.contained * 0.8,
-      maxScale: PhotoViewComputedScale.covered * 1.8,
-      initialScale: PhotoViewComputedScale.contained,
-    )
-  ]);
-  galleryWidgets.insertAll(_pictureID, [
+    int _pictureID, BuildContext context, String galleryName) async {
+  slideShowImages.add(PhotoViewGalleryPageOptions(
+    imageProvider: NetworkImage(
+        galleryImages[_pictureID].replaceAll("500x500", "1500x1500")),
+    minScale: PhotoViewComputedScale.contained * 0.8,
+    maxScale: PhotoViewComputedScale.covered * 1.8,
+    initialScale: PhotoViewComputedScale.contained,
+  ));
+}
+
+void _addGalleryWidgets(
+    int _pictureID, BuildContext context, String galleryName) {
+  print(galleryWidgets.length);
+  print(slideShowImages.length);
+  print(_pictureID);
+  galleryWidgets.add(
     GestureDetector(
       child: Container(
           height: 200,
@@ -50,5 +68,5 @@ void _buildGallery(
             ));
       },
     ),
-  ]);
+  );
 }

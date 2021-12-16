@@ -54,6 +54,8 @@ class SlideShowState extends State<SlideShow> {
       _onPageViewChange(pictureID);
     } else if (castSession.state == CastSessionState.closed) {
       _startSearch();
+    } else {
+      print('error');
     }
   }
 
@@ -87,8 +89,8 @@ class SlideShowState extends State<SlideShow> {
   _onPageViewChange(int page) async {
     //TODO If first picture in SlideShow is last one I have to load one additional picture
     pictureID = page;
-    await displayImage(
-        galleryImages.length, galleryImages.length + 2, context, galleryName);
+    await displayImage(galleryImages.length, galleryImages.length + 2, context,
+        galleryName, "slideshow");
     setState(() {
       _imageCast = galleryImages[pictureID].replaceAll("500x500", "1500x1500");
     });
@@ -125,25 +127,12 @@ class SlideShowState extends State<SlideShow> {
       'contentId': _imageCast,
       'contentType': 'image/jpg',
       'streamType': 'LIVE', // or LIVE
-
-      // Title and cover displayed while buffering
-      /*'metadata': {
-        'type': 0,
-        'metadataType': 0,
-        'title': "Big Buck Bunny",
-        'images': [
-          {
-            'url':
-                'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg'
-          }
-        ]
-      }*/
     };
 
     session.sendMessage(CastSession.kNamespaceMedia, {
       'type': 'LOAD',
-      'autoPlay': true,
-      'currentTime': 0,
+      //'autoPlay': true,
+      //'currentTime': 0,
       'media': message,
     });
   }

@@ -54,13 +54,14 @@ class _GalleryState extends State<Gallery> {
       _addImages();
     } else {
       if (rawImageData.length >= 20) {
-        await displayImage(0, 20, context, galleryName);
+        await displayImage(0, 20, context, galleryName, "gallery");
         setState(() {
           _isloading = false;
           _isLoadingNewContent = false;
         });
       } else {
-        await displayImage(0, rawImageData.length, context, galleryName);
+        await displayImage(
+            0, rawImageData.length, context, galleryName, "gallery");
         setState(() {
           _isloading = false;
           _isLoadingNewContent = false;
@@ -76,7 +77,7 @@ class _GalleryState extends State<Gallery> {
     if (_isLoadingNewContent == false) {
       _isLoadingNewContent = true;
       await displayImage(galleryImages.length, galleryImages.length + 20,
-          context, galleryName);
+          context, galleryName, "gallery");
       setState(() {
         _isloading = false;
         _isLoadingNewContent = false;
